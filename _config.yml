@@ -2,8 +2,10 @@ title: Gamaliel API
 description: OpenAI-compatible Biblical Chat API
 
 # GitHub Pages base URL
-baseurl: "/gamaliel-api"
-url: "https://gamaliel-ai.github.io"
+# When using custom domain (developer.gamaliel.ai), GitHub Pages serves from root
+# When using default domain, baseurl is "/gamaliel-api"
+baseurl: ""  # Empty for custom domain - GitHub Pages handles this automatically
+url: "https://developer.gamaliel.ai"
 
 # Clean URLs (remove .html extension)
 permalink: pretty
