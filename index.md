@@ -1,3 +1,8 @@
+---
+title: Gamaliel Public API
+layout: default
+---
+
 # Gamaliel Public API
 
 ## Overview
@@ -54,7 +59,8 @@ print(response.choices[0].message.content)
 
 ### Getting Started
 
-- [Overview](docs/index.md) - Full API overview
+- [Full Documentation](docs/index.md) - Complete API documentation
+- [Quick Start Examples](docs/examples/quick-start.md) - Get started in minutes
 - [Authentication](docs/authentication.md) - BYOK (Bring Your Own Key) authentication
 
 ### API Endpoints
@@ -63,9 +69,21 @@ print(response.choices[0].message.content)
 - [List Theologies](docs/endpoints/theologies.md) - Get available theology options (`GET /v1/theologies`)
 - [List Profiles](docs/endpoints/profiles.md) - Get available profile options (`GET /v1/profiles`)
 
+### Examples
+
+- [Python SDK Examples](docs/examples/python-sdk.md) - Python examples with OpenAI SDK
+- [JavaScript SDK Examples](docs/examples/javascript-sdk.md) - JavaScript/TypeScript examples
+- [Raw HTTP Examples](docs/examples/raw-http.md) - Examples using raw HTTP requests
+- [Advanced Examples](docs/examples/advanced.md) - Scripture context, custom instructions, and more
+
+### Guides
+
+- [Testing with Open WebUI](docs/guides/testing-with-open-webui.md) - Manual testing guide
+
 ### Reference
 
 - [Error Responses](docs/errors.md) - API error codes and responses
+- [FAQ](docs/index.md#frequently-asked-questions) - Frequently asked questions
 
 ## Stateless Operation
 
@@ -86,19 +104,6 @@ You can maintain your own conversation history by including previous messages in
 - No authentication required beyond BYOK (no Gamaliel API keys)
 - Stateless operation prevents data leakage between requests
 
-## Questions & Answers
+## Questions?
 
-**Q: Why OpenAI-compatible format?**  
-A: Familiarity and tool interchangeability. You can use existing OpenAI SDKs and tools with minimal changes. Just add Gamaliel-specific parameters for biblical context.
-
-**Q: Why is BYOK required?**  
-A: Simplifies integration, gives you control over costs, and ensures privacy. Future versions may support other providers (Anthropic, etc.).
-
-**Q: Can I use this as a drop-in replacement for OpenAI?**  
-A: Yes! Use standard OpenAI format with optional Gamaliel parameters. If you don't provide Gamaliel-specific params, it works like OpenAI but with biblical guardrails.
-
-**Q: Can I use the official OpenAI SDKs?**  
-A: Yes! The official OpenAI Python and JavaScript SDKs work perfectly. Just set `base_url="https://api.gamaliel.ai/v1"` and pass Gamaliel-specific parameters (like `theology_slug`, `book_id`) alongside standard parameters. The SDK automatically includes them in the request body.
-
-**Q: Does the API use the same prompts and tools as Gamaliel UI?**  
-A: Yes! The Public API uses the exact same underlying system as the Gamaliel web application - same prompts, same tools, same guardrails, same quality. The only difference is the API interface.
+See the [FAQ](docs/index.md#frequently-asked-questions) for answers to common questions about the API, SDKs, parameters, and more.

@@ -1,2 +1,51 @@
 title: Gamaliel API
 description: OpenAI-compatible Biblical Chat API
+
+# Clean URLs (remove .html extension)
+permalink: pretty
+
+# Navigation structure
+navigation:
+  - title: Getting Started
+    children:
+      - title: Overview
+        url: /docs/
+      - title: Quick Start
+        url: /docs/examples/quick-start/
+      - title: Authentication
+        url: /docs/authentication/
+  - title: API Endpoints
+    children:
+      - title: Chat Completions
+        url: /docs/endpoints/chat-completions/
+      - title: List Theologies
+        url: /docs/endpoints/theologies/
+      - title: List Profiles
+        url: /docs/endpoints/profiles/
+  - title: Examples
+    children:
+      - title: Python SDK
+        url: /docs/examples/python-sdk/
+      - title: JavaScript SDK
+        url: /docs/examples/javascript-sdk/
+      - title: Raw HTTP
+        url: /docs/examples/raw-http/
+      - title: Advanced
+        url: /docs/examples/advanced/
+  - title: Guides
+    children:
+      - title: Testing with Open WebUI
+        url: /docs/guides/testing-with-open-webui/
+  - title: Reference
+    children:
+      - title: Error Responses
+        url: /docs/errors/
+      - title: FAQ
+        url: /docs/#frequently-asked-questions
+
+# Default layout
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
