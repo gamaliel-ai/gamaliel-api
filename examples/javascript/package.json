@@ -1,0 +1,9 @@
+{
+  "name": "gamaliel-api-examples",
+  "version": "1.0.0",
+  "description": "Example code for using the Gamaliel Public API",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
