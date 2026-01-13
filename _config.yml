@@ -14,8 +14,24 @@ search_enabled: true
 nav:
   - title: Home
     url: /
-  - title: API Documentation
-    url: /docs/
+  - title: Getting Started
+    children:
+      - title: Overview
+        url: /docs/
+      - title: Authentication
+        url: /docs/authentication
+  - title: API Endpoints
+    children:
+      - title: Chat Completions
+        url: /docs/endpoints/chat-completions
+      - title: List Theologies
+        url: /docs/endpoints/theologies
+      - title: List Profiles
+        url: /docs/endpoints/profiles
+  - title: Reference
+    children:
+      - title: Error Responses
+        url: /docs/errors
   - title: Examples
     children:
       - title: Python
