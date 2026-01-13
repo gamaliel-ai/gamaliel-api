@@ -9,6 +9,8 @@ layout: default
 
 **OpenAI-Compatible Format** with Gamaliel extensions for biblical context and theological customization.
 
+🤖 **Quick Reference:** See [`llms.txt`](../../llms.txt) for a concise API reference optimized for LLM-powered tools.
+
 ## Request
 
 ```http
@@ -110,6 +112,36 @@ data: [DONE]
 ### Request Headers
 
 - `X-Convert-Scripture-Links` (string, optional): Controls whether scripture references are converted to markdown links. Defaults to `"true"`. Accepted values: `"true"`, `"1"`, `"yes"` (enable), `"false"`, `"0"`, `"no"` (disable). Header takes precedence over `convert_scripture_links` body parameter.
+
+## Limitations
+
+### Tools/Function Calling Not Supported
+
+**The Gamaliel API does not support OpenAI's `tools` or `function_calling` parameters.** 
+
+Gamaliel handles all tool usage internally (including biblical search, passage lookup, semantic search, etc.) and returns the final answer directly to you. You cannot build agents that use custom tools or function calling with the Gamaliel API.
+
+**How Gamaliel Works:**
+- Gamaliel's internal agent uses tools to search scripture, look up passages, and gather biblical context
+- All tool execution happens server-side before the response is sent
+- You receive the final answer with all relevant scripture references already included
+- No tool calls or function invocations are exposed in the API response
+
+**What This Means:**
+- ✅ You can ask biblical questions and get complete answers with scripture citations
+- ✅ Gamaliel automatically finds and includes relevant Bible passages
+- ❌ You cannot provide your own tools or functions for the model to call
+- ❌ You cannot build multi-step agent workflows that require tool execution
+- ❌ You cannot intercept or modify tool calls before they execute
+
+**Why This Design?**
+Gamaliel is designed as a **complete biblical intelligence system** rather than a raw LLM wrapper. By handling all tool execution internally, Gamaliel ensures:
+- Consistent biblical accuracy and theological guardrails
+- Optimal tool selection and execution
+- Simplified integration (no need to handle tool calls)
+- Better performance (tools execute in parallel server-side)
+
+If you need custom tool execution or agent workflows, consider using OpenAI's API directly with your own tool implementations.
 
 ## Scripture Links Customization
 

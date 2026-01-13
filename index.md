@@ -16,11 +16,16 @@ The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allow
 - BYOK (Bring Your Own Key) - you provide your own OpenAI API key
 - Same prompts, tools, and biblical intelligence as Gamaliel UI
 
+**Limitations:**
+- Does not support `tools` or `function_calling` parameters - Gamaliel handles all tool execution internally
+
 ## Base URL
 
 ```
 https://api.gamaliel.ai
 ```
+
+🤖 **For LLM-powered tools:** See [`llms.txt`](llms.txt) for a concise API reference optimized for tools like Cursor.
 
 ## Same Intelligence as Gamaliel UI
 

@@ -1,6 +1,6 @@
 <nav class="site-nav">
   <div class="nav-header">
-    <a href="/" class="nav-logo">Gamaliel API</a>
+    <a href="{{ site.baseurl }}/" class="nav-logo">Gamaliel API</a>
   </div>
   <ul class="nav-menu">
     {% for item in site.navigation %}
@@ -16,7 +16,7 @@
                 {% if page_path == child.url or page_path == child_path or page.url == child.url %}
                   {% assign is_active = true %}
                 {% endif %}
-                <a href="{{ child.url }}" class="nav-link {% if is_active %}active{% endif %}">
+                <a href="{{ site.baseurl }}{{ child.url }}" class="nav-link {% if is_active %}active{% endif %}">
                   {{ child.title }}
                 </a>
               </li>

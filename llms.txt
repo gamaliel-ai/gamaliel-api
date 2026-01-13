@@ -1,0 +1,89 @@
+# Gamaliel Public API
+
+OpenAI-compatible Biblical Chat API - Drop-in replacement for OpenAI's chat completions API with biblical intelligence.
+
+## Base URL
+https://api.gamaliel.ai/v1
+
+## Authentication
+BYOK (Bring Your Own Key) - Client provides their own OpenAI API key in Authorization header:
+```
+Authorization: Bearer sk-...
+```
+
+## Main Endpoint
+POST /v1/chat/completions
+
+## Key Parameters
+
+### Standard OpenAI Parameters
+- `model` (string, optional): Defaults to "gpt-4o-mini"
+- `messages` (array, required): Array of message objects with `role` and `content`
+- `stream` (boolean, optional): Whether to stream responses. Defaults to false
+
+### Gamaliel-Specific Parameters
+- `theology_slug` (string, optional): Theological perspective. Defaults to "default". Use GET /v1/theologies for options.
+- `profile_slug` (string, optional): User profile. Defaults to "universal_explorer". Use GET /v1/profiles for options.
+- `book_id` (string, optional): Scripture context - book ID (e.g., "MAT", "GEN", "1CO")
+- `chapter` (integer, optional): Scripture context - chapter number
+- `verses` (array of integers, optional): Scripture context - specific verse numbers
+- `bible_id` (string, optional): Bible translation ID. Defaults to "eng-web"
+- `max_words` (integer, optional): Maximum response length in words. Defaults to 300
+- `system_instructions` (string, optional): Custom tone/format instructions (appended to mandatory guardrails)
+- `convert_scripture_links` (boolean, optional): Convert scripture refs to markdown links. Defaults to true
+- `skip_preflight` (boolean, optional): Skip input validation. Defaults to false
+
+### Headers
+- `X-Convert-Scripture-Links` (string, optional): "true"/"false" to control scripture link conversion. Takes precedence over body parameter.
+
+## Other Endpoints
+- GET /v1/theologies - List available theology options
+- GET /v1/profiles - List available profile options
+- GET /v1/models - List available models
+
+## Quick Example
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-...",  # Your OpenAI API key
+    base_url="https://api.gamaliel.ai/v1"
+)
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "user", "content": "What does the Bible say about forgiveness?"}
+    ],
+    theology_slug="default",
+    profile_slug="universal_explorer"
+)
+
+print(response.choices[0].message.content)
+```
+
+## Important Limitations
+
+❌ **Does NOT support `tools` or `function_calling` parameters**
+- Gamaliel handles all tool execution internally (biblical search, passage lookup, etc.)
+- You receive final answers with scripture citations already included
+- Cannot build agents with custom tools or function calling
+
+## Response Format
+
+Standard OpenAI chat completion format:
+- Non-streaming: Returns complete response object
+- Streaming: Server-Sent Events (SSE) format with `data:` prefixed JSON chunks
+
+## Documentation
+- Full docs: docs/index.md
+- Endpoint reference: docs/endpoints/chat-completions.md
+- Examples: docs/examples/
+- FAQ: docs/index.md#frequently-asked-questions
+
+## Key Features
+- OpenAI-compatible request/response format
+- Streaming and non-streaming support
+- Stateless (no chat persistence - manage history client-side)
+- Same biblical intelligence as Gamaliel UI (same prompts, tools, guardrails)

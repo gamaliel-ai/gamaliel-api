@@ -36,6 +36,8 @@ print(response.choices[0].message.content)
 
 📖 **[Full API Documentation →](docs/index.md)**
 
+🤖 **[llms.txt](llms.txt)** - Concise API reference for LLM-powered tools (Cursor, etc.)
+
 ## Key Features
 
 - ✅ OpenAI-compatible request/response format

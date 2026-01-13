@@ -22,6 +22,8 @@ The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allow
 https://api.gamaliel.ai
 ```
 
+🤖 **For LLM-powered tools:** See [`llms.txt`](../llms.txt) for a concise API reference optimized for tools like Cursor.
+
 ## Same Intelligence as Gamaliel UI
 
 The Public API uses the **exact same underlying system** as the Gamaliel web application:
@@ -114,7 +116,7 @@ A: Familiarity and tool interchangeability. You can use existing OpenAI SDKs and
 A: Simplifies integration, gives you control over costs, and ensures privacy. Future versions may support other providers (Anthropic, etc.).
 
 **Q: Can I use this as a drop-in replacement for OpenAI?**  
-A: Yes! Use standard OpenAI format with optional Gamaliel parameters. If you don't provide Gamaliel-specific params, it works like OpenAI but with biblical guardrails.
+A: Mostly yes, with one important limitation: Gamaliel does not support `tools` or `function_calling` parameters. For standard chat completions, you can use OpenAI format with optional Gamaliel parameters. If you don't provide Gamaliel-specific params, it works like OpenAI but with biblical guardrails. However, if you need custom tool execution or function calling, you'll need to use OpenAI's API directly. See [Limitations](docs/endpoints/chat-completions.md#limitations) for details.
 
 **Q: Can I use the official OpenAI SDKs?**  
 A: Yes! The official OpenAI Python and JavaScript SDKs work perfectly. Just set `base_url="https://api.gamaliel.ai/v1"` and pass Gamaliel-specific parameters (like `theology_slug`, `book_id`) alongside standard parameters. The SDK automatically includes them in the request body.
@@ -155,3 +157,6 @@ A: Greetings (e.g., "Hi", "Hello", "Thank you") are intercepted by preflight val
 
 **Q: Can I bypass preflight validation?**  
 A: Yes, set `skip_preflight: true` in your request body. This bypasses all preflight validation and sends the request directly to the chat agent. Use this only when you're certain your inputs are valid and want to skip the validation step. See [Disabling Preflight Validation](docs/examples/advanced.md#disabling-preflight-validation) for examples.
+
+**Q: Does the API support tools or function calling?**  
+A: No. The Gamaliel API does not support OpenAI's `tools` or `function_calling` parameters. Gamaliel handles all tool usage internally (biblical search, passage lookup, etc.) and returns the final answer directly. You cannot build agents that use custom tools or function calling. See [Limitations](docs/endpoints/chat-completions.md#limitations) for details.

@@ -1,6 +1,10 @@
 title: Gamaliel API
 description: OpenAI-compatible Biblical Chat API
 
+# GitHub Pages base URL
+baseurl: "/gamaliel-api"
+url: "https://gamaliel-ai.github.io"
+
 # Clean URLs (remove .html extension)
 permalink: pretty
 
