@@ -179,6 +179,24 @@ pre code {
   font-size: 0.875rem;
 }
 
+/* Blockquotes */
+blockquote {
+  background-color: #f6f8fa;
+  border-left: 4px solid #0366d6;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
+  color: #24292e;
+}
+
+blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
 /* Links */
 a {
   color: #0366d6;

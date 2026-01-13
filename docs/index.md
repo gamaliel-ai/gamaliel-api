@@ -9,6 +9,9 @@ layout: default
 
 The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a **drop-in replacement** for OpenAI's chat completions API, with optional Gamaliel-specific parameters for biblical context and theological customization.
 
+> **🚀 Early Release - We Want Your Feedback!**  
+> The Gamaliel Public API is currently in early release. We're eager to hear from you about how we can improve the API, enhance the quality of completions, and expand customizability. Your feedback helps us build a better product. Please reach out with suggestions, issues, or feature requests!
+
 **Key Features:**
 - OpenAI-compatible request/response format
 - Streaming and non-streaming support
