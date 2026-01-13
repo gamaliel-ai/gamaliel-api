@@ -1,10 +1,7 @@
 title: Gamaliel API
 description: OpenAI-compatible Biblical Chat API
-remote_theme: just-the-docs/just-the-docs
+theme: just-the-docs
 color_scheme: dark
-
-plugins:
-  - jekyll-remote-theme
 
 aux_links:
   "GitHub": "https://github.com/gamaliel-ai/gamaliel-api"
