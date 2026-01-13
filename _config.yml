@@ -7,6 +7,7 @@ aux_links:
   "GitHub": "https://github.com/gamaliel-ai/gamaliel-api"
   "Gamaliel": "https://gamaliel.ai"
 
+# Enable navigation and search
 nav_enabled: true
 search_enabled: true
 
@@ -17,24 +18,18 @@ nav:
   - title: Getting Started
     children:
       - title: Overview
-        url: /docs/
+        url: /docs/index.html
       - title: Authentication
-        url: /docs/authentication
+        url: /docs/authentication.html
   - title: API Endpoints
     children:
       - title: Chat Completions
-        url: /docs/endpoints/chat-completions
+        url: /docs/endpoints/chat-completions.html
       - title: List Theologies
-        url: /docs/endpoints/theologies
+        url: /docs/endpoints/theologies.html
       - title: List Profiles
-        url: /docs/endpoints/profiles
+        url: /docs/endpoints/profiles.html
   - title: Reference
     children:
       - title: Error Responses
-        url: /docs/errors
-  - title: Examples
-    children:
-      - title: Python
-        url: /examples/python/
-      - title: JavaScript
-        url: /examples/javascript/
+        url: /docs/errors.html
