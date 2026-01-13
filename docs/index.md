@@ -54,17 +54,18 @@ print(response.choices[0].message.content)
 
 ### Getting Started
 
-- [Authentication](authentication.md) - BYOK (Bring Your Own Key) authentication
+- [Overview](docs/index.md) - Full API overview
+- [Authentication](docs/authentication.md) - BYOK (Bring Your Own Key) authentication
 
 ### API Endpoints
 
-- [Chat Completions](endpoints/chat-completions.md) - Main endpoint for biblical chat (`POST /v1/chat/completions`)
-- [List Theologies](endpoints/theologies.md) - Get available theology options (`GET /v1/theologies`)
-- [List Profiles](endpoints/profiles.md) - Get available profile options (`GET /v1/profiles`)
+- [Chat Completions](docs/endpoints/chat-completions.md) - Main endpoint for biblical chat (`POST /v1/chat/completions`)
+- [List Theologies](docs/endpoints/theologies.md) - Get available theology options (`GET /v1/theologies`)
+- [List Profiles](docs/endpoints/profiles.md) - Get available profile options (`GET /v1/profiles`)
 
 ### Reference
 
-- [Error Responses](errors.md) - API error codes and responses
+- [Error Responses](docs/errors.md) - API error codes and responses
 
 ## Stateless Operation
 
