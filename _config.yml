@@ -14,22 +14,21 @@ search_enabled: true
 # Main navigation structure
 nav:
   - title: Home
-    url: /
   - title: Getting Started
     children:
       - title: Overview
-        url: /docs/index.html
+        url: /docs/
       - title: Authentication
-        url: /docs/authentication.html
+        url: /docs/authentication
   - title: API Endpoints
     children:
       - title: Chat Completions
-        url: /docs/endpoints/chat-completions.html
+        url: /docs/endpoints/chat-completions
       - title: List Theologies
-        url: /docs/endpoints/theologies.html
+        url: /docs/endpoints/theologies
       - title: List Profiles
-        url: /docs/endpoints/profiles.html
+        url: /docs/endpoints/profiles
   - title: Reference
     children:
       - title: Error Responses
-        url: /docs/errors.html
+        url: /docs/errors
