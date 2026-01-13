@@ -1,10 +1,3 @@
----
-layout: default
-permalink: /
-redirect_from:
-  - /docs/
----
-
 # Gamaliel Public API
 
 ## Overview
