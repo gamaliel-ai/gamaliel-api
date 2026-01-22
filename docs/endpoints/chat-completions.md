@@ -259,7 +259,14 @@ The API automatically constructs a comprehensive system message that combines:
 
 If `system_instructions` is provided, it's appended to the core system message. This allows you to customize tone, format, and audience-specific guidance without overriding theological guardrails.
 
-**Example:**
+**Important:** User-provided `system_instructions` cannot override or contradict the mandatory theological guardrails. They are purely additive for tone, format, and audience-specific guidance.
+
+### Use Case Examples
+
+#### Example 1: Christian Youth Group
+
+**Scenario:** Speaking to high school students in a Christian youth group who are familiar with basic Bible stories but may struggle with applying biblical principles.
+
 ```json
 {
   "messages": [
@@ -269,10 +276,101 @@ If `system_instructions` is provided, it's appended to the core system message. 
 }
 ```
 
-**Important:** User-provided `system_instructions` cannot override or contradict the mandatory theological guardrails. They are purely additive for tone, format, and audience-specific guidance.
+#### Example 2: Atheist or Bible-Skeptical Youth
+
+**Scenario:** Engaging with an atheist youth or someone who is skeptical about the Bible. Use accessible language, avoid religious jargon, and present biblical content in a way that's respectful of their perspective.
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "Why do Christians believe in God?"}
+  ],
+  "system_instructions": "You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible. They may have questions about Christianity but are not familiar with religious language or concepts. Use normal, everyday language. Avoid theological jargon. Explain biblical concepts naturally, as if explaining to a friend. Still search Scripture to find the most biblical content related to the question, but express it in accessible language. Be respectful of their perspective while presenting biblical truth clearly."
+}
+```
+
+**For even more accessible responses** (no book names or citations):
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "Why do Christians believe in God?"}
+  ],
+  "system_instructions": "**OUTPUT FORMATTING:**\n- Do NOT quote Scripture passages verbatim\n- Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm')\n- Do NOT include chapter numbers or verse citations (e.g., 'John 3:16', 'Romans 8:28')\n- Answer in normal, everyday language as if explaining to a friend\n- Use the biblical content you find to inform your answer, but express it naturally in your own words\n- You may mention 'The Bible' or 'biblical teaching' but do not cite specific books or passages\n\n**LANGUAGE AND APPROACH:**\n- Use normal, conversational language\n- Explain concepts without assuming prior biblical knowledge\n- Present ideas naturally, as if explaining to a friend\n- Still search Scripture to find the most biblical content related to the question\n- Express biblical concepts in everyday language without quoting passages verbatim or mentioning book names"
+}
+```
+
+#### Example 3: Minimal Scripture References
+
+**Scenario:** You want concise answers with minimal Scripture citations (one or two key passages maximum, no extensive cross-references).
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "What is love?"}
+  ],
+  "system_instructions": "**RESPONSE STRUCTURE:**\n1. Answer directly and concisely\n2. Focus on the core concept - keep references minimal\n3. Explain the meaning clearly\n4. Apply practically\n\n**OUTPUT FORMATTING:**\n- When referencing Scripture you find, keep it minimal - focus on one or two key passages\n- Do not include extensive cross-references or multiple Scripture passages\n- Do not draw extensive connections between multiple biblical passages\n- Keep the answer focused and concise"
+}
+```
+
+#### Example 4: Academic or Theological Context
+
+**Scenario:** Speaking to someone with theological training who wants deeper analysis and cross-references.
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "Explain the doctrine of justification by faith"}
+  ],
+  "system_instructions": "You are speaking to someone with theological training. They are familiar with biblical concepts, theological terminology, and church history. Provide thorough analysis with multiple Scripture references and cross-references. Draw connections between passages and explain theological nuances. Use appropriate theological terminology."
+}
+```
+
+#### Example 5: Children or Early Readers
+
+**Scenario:** Speaking to young children (ages 6-12) who need simple language and concrete examples.
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "What does the Bible say about sharing?"}
+  ],
+  "system_instructions": "You are speaking to children (ages 6-12). Use simple, concrete language. Avoid abstract concepts. Use stories and examples they can relate to. Keep responses short (under 150 words). Focus on one main idea. Use words they understand."
+}
+```
+
+#### Example 6: New Believers
+
+**Scenario:** Speaking to someone who recently became a Christian and is learning the basics.
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "What should I do now that I'm a Christian?"}
+  ],
+  "system_instructions": "You are speaking to a new believer who recently became a Christian. They are excited but may feel overwhelmed. Explain concepts clearly without assuming prior knowledge. Use encouraging, supportive language. Focus on practical next steps. Avoid theological jargon, but introduce basic terms when helpful. Be patient and clear."
+}
+```
+
+### What `system_instructions` Can Do
+
+✅ **Customize tone and style** (formal, casual, academic, conversational)  
+✅ **Specify audience** (children, youth, adults, skeptics, new believers)  
+✅ **Control response length** (though `max_words` parameter is more direct)  
+✅ **Format preferences** (minimal citations, no book names, extensive cross-references)  
+✅ **Language level** (simple, technical, accessible)  
+✅ **Context-specific guidance** (youth group, academic setting, personal counseling)
+
+### What `system_instructions` Cannot Do
+
+❌ **Override theological guardrails** - Core Christian doctrines are always enforced  
+❌ **Change biblical content** - Scripture references and biblical accuracy are maintained  
+❌ **Remove safety filters** - Content moderation and theological guardrails remain active  
+❌ **Alter tool behavior** - Biblical search, passage lookup, and other tools work the same way
 
 **See Examples:**
 - [Custom System Instructions](../examples/advanced.md#custom-system-instructions)
+- [Customizing Responses Guide](../guides/customizing-responses.md) - Comprehensive guide with detailed examples for Discord bots, counseling apps, and more
 
 ## Examples
 

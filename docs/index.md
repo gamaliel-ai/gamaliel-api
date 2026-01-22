@@ -83,6 +83,7 @@ print(response.choices[0].message.content)
 
 ### Guides
 
+- [Customizing Responses](docs/guides/customizing-responses.md) - Detailed guide for customizing responses with `system_instructions` (Discord bots, counseling apps, youth groups, etc.)
 - [Testing with Open WebUI](docs/guides/testing-with-open-webui.md) - Manual testing guide
 
 ### Reference
