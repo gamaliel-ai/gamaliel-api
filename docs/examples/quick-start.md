@@ -17,8 +17,8 @@ response = client.chat.completions.create(
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    theology_slug="default",
-    profile_slug="universal_explorer"
+    theology="default",
+    profile="universal_explorer"
 )
 
 print(response.choices[0].message.content)
@@ -39,8 +39,8 @@ const response = await openai.chat.completions.create({
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
-  theology_slug: 'default',
-  profile_slug: 'universal_explorer'
+  theology: 'default',
+  profile: 'universal_explorer'
 } as any);
 
 console.log(response.choices[0].message.content);
@@ -57,8 +57,8 @@ curl https://api.gamaliel.ai/v1/chat/completions \
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    "theology_slug": "default",
-    "profile_slug": "universal_explorer"
+    "theology": "default",
+    "profile": "universal_explorer"
   }'
 ```
 

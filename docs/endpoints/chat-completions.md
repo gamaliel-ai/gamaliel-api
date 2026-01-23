@@ -33,8 +33,8 @@ Authorization: Bearer sk-... (required)
   "chapter": 5,  // Optional
   "verses": [1, 2, 3],  // Optional array of verse numbers
   "bible_id": "eng-web",  // Optional Bible translation ID, defaults to "eng-web"
-  "profile_slug": "universal_explorer",  // Optional profile slug
-  "theology_slug": "default",  // Optional theology slug
+  "profile": "universal_explorer",  // Optional profile slug
+  "theology": "default",  // Optional theology slug
   "max_words": 300,  // Optional response length limit in words
   "system_instructions": "You are speaking to high school students. Keep responses concise and practical."  // Optional tone/format instructions
 }
@@ -102,8 +102,8 @@ data: [DONE]
 - `chapter` (integer): Scripture context - chapter number
 - `verses` (array of integers): Scripture context - specific verse numbers (e.g., `[1, 2, 3]`)
 - `bible_id` (string): Bible translation ID (e.g., `"eng-web"`, `"spa-niv-2022"`). Defaults to `"eng-web"`
-- `profile_slug` (string): Pre-defined profile slug (e.g., `"universal_explorer"`, `"mature_believer"`). Defaults to `"universal_explorer"`. Use `GET /v1/profiles` to see available options.
-- `theology_slug` (string): Theological perspective (e.g., `"default"`, `"reformed"`, `"catholic"`). Defaults to `"default"`. Use `GET /v1/theologies` to see available options.
+- `profile` (string): Pre-defined profile slug (e.g., `"universal_explorer"`, `"mature_believer"`). Defaults to `"universal_explorer"`. Use `GET /v1/profiles` to see available options.
+- `theology` (string): Theological perspective (e.g., `"default"`, `"reformed"`, `"catholic"`). Defaults to `"default"`. Use `GET /v1/theologies` to see available options.
 - `max_words` (integer): Maximum response length in words. Defaults to 300
 - `system_instructions` (string): Optional tone/format instructions (e.g., `"You are speaking to high school students. Keep responses concise."`). These are appended to the mandatory system message
 - `convert_scripture_links` (boolean, optional): Whether to convert scripture references to markdown links. Defaults to `true`. When `true`, references like "Matthew 5:1-16" are converted to `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`. When `false`, references remain as plain text.
@@ -252,8 +252,8 @@ The API automatically constructs a comprehensive system message that combines:
 ### 1. Mandatory Core (Always Included)
 
 - **Theological Guardrails**: Core Christian doctrines and guardrails against common errors
-- **Theology Guidelines**: Instructions from the selected theology (via `theology_slug`)
-- **Profile Instructions**: Instructions from the selected profile (via `profile_slug`)
+- **Theology Guidelines**: Instructions from the selected theology (via `theology`)
+- **Profile Instructions**: Instructions from the selected profile (via `profile`)
 
 ### 2. Optional User Instructions
 
@@ -396,7 +396,7 @@ The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API. You 
 
 **Key Points:**
 - All standard OpenAI parameters work exactly as expected
-- Gamaliel-specific parameters (`theology_slug`, `book_id`, etc.) are passed through automatically
+- Gamaliel-specific parameters (`theology`, `book_id`, etc.) are passed through automatically
 - The SDK serializes all parameters to JSON, including custom ones
 - TypeScript may show warnings for unknown fields (see TypeScript section in [JavaScript SDK Examples](../examples/javascript-sdk.md#typescript-type-safety))
 
@@ -404,7 +404,7 @@ The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API. You 
 
 Most SDKs (including OpenAI's official SDKs) support custom parameters in two ways:
 
-1. **Extra Parameters in Method Calls**: The OpenAI SDK accepts `**kwargs` and automatically includes any extra parameters in the JSON request body. This means Gamaliel-specific parameters like `theology_slug`, `convert_scripture_links`, etc. are automatically passed through without any special handling.
+1. **Extra Parameters in Method Calls**: The OpenAI SDK accepts `**kwargs` and automatically includes any extra parameters in the JSON request body. This means Gamaliel-specific parameters like `theology`, `convert_scripture_links`, etc. are automatically passed through without any special handling.
 
 2. **Custom Headers**: The OpenAI SDK supports custom headers via the `default_headers` parameter when initializing the client. This is useful for headers like `X-Convert-Scripture-Links` that take precedence over body parameters.
 

@@ -41,7 +41,7 @@ No authentication required for this endpoint.
 
 ## Usage
 
-Use the `slug` value from the response in the `theology_slug` parameter when making chat completion requests. See [Chat Completions](chat-completions.md) for details.
+Use the `slug` value from the response in the `theology` parameter when making chat completion requests. See [Chat Completions](chat-completions.md) for details.
 
 ## Example
 

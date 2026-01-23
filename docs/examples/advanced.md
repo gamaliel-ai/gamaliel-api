@@ -25,7 +25,7 @@ response = client.chat.completions.create(
     chapter=5,
     verses=[1, 2, 3],
     bible_id="eng-web",
-    theology_slug="reformed"
+    theology="reformed"
 )
 
 print(response.choices[0].message.content)
@@ -50,7 +50,7 @@ const response = await openai.chat.completions.create({
   chapter: 5,
   verses: [1, 2, 3],
   bible_id: 'eng-web',
-  theology_slug: 'reformed'
+  theology: 'reformed'
 } as any);
 
 console.log(response.choices[0].message.content);

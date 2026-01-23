@@ -22,8 +22,8 @@ POST /v1/chat/completions
 - `stream` (boolean, optional): Whether to stream responses. Defaults to false
 
 ### Gamaliel-Specific Parameters
-- `theology_slug` (string, optional): Theological perspective. Defaults to "default". Use GET /v1/theologies for options.
-- `profile_slug` (string, optional): User profile. Defaults to "universal_explorer". Use GET /v1/profiles for options.
+- `theology` (string, optional): Theological perspective. Defaults to "default". Use GET /v1/theologies for options.
+- `profile` (string, optional): User profile. Defaults to "universal_explorer". Use GET /v1/profiles for options.
 - `book_id` (string, optional): Scripture context - book ID (e.g., "MAT", "GEN", "1CO")
 - `chapter` (integer, optional): Scripture context - chapter number
 - `verses` (array of integers, optional): Scripture context - specific verse numbers
@@ -56,8 +56,8 @@ response = client.chat.completions.create(
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    theology_slug="default",
-    profile_slug="universal_explorer"
+    theology="default",
+    profile="universal_explorer"
 )
 
 print(response.choices[0].message.content)

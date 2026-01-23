@@ -14,7 +14,7 @@ const stream = await openai.chat.completions.create({
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
   stream: true,
-  theology_slug: 'default',
+  theology: 'default',
   book_id: 'MAT',
   chapter: 6
 } as any);

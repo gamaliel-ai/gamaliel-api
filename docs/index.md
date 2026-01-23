@@ -53,8 +53,8 @@ response = client.chat.completions.create(
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    theology_slug="default",
-    profile_slug="universal_explorer"
+    theology="default",
+    profile="universal_explorer"
 )
 
 print(response.choices[0].message.content)
@@ -123,7 +123,7 @@ A: Simplifies integration, gives you control over costs, and ensures privacy. Fu
 A: Mostly yes, with one important limitation: Gamaliel does not support `tools` or `function_calling` parameters. For standard chat completions, you can use OpenAI format with optional Gamaliel parameters. If you don't provide Gamaliel-specific params, it works like OpenAI but with biblical guardrails. However, if you need custom tool execution or function calling, you'll need to use OpenAI's API directly. See [Limitations](endpoints/chat-completions.md#limitations) for details.
 
 **Q: Can I use the official OpenAI SDKs?**  
-A: Yes! The official OpenAI Python and JavaScript SDKs work perfectly. Just set `base_url="https://api.gamaliel.ai/v1"` and pass Gamaliel-specific parameters (like `theology_slug`, `book_id`) alongside standard parameters. The SDK automatically includes them in the request body.
+A: Yes! The official OpenAI Python and JavaScript SDKs work perfectly. Just set `base_url="https://api.gamaliel.ai/v1"` and pass Gamaliel-specific parameters (like `theology`, `book_id`) alongside standard parameters. The SDK automatically includes them in the request body.
 
 **Q: Does the API use the same prompts and tools as Gamaliel UI?**  
 A: Yes! The Public API uses the exact same underlying system as the Gamaliel web application - same prompts, same tools, same guardrails, same quality. The only difference is the API interface.
@@ -135,13 +135,13 @@ A: Mandatory Gamaliel guardrails + theology + profile are always included. User-
 
 **Q: Do SDKs support custom parameters and headers?**  
 A: Yes! Most SDKs (including OpenAI's official SDKs) support both approaches:
-- **Extra Parameters**: Pass Gamaliel-specific parameters (like `convert_scripture_links`, `theology_slug`) directly as method arguments. The SDK automatically includes them in the JSON request body via `**kwargs`.
+- **Extra Parameters**: Pass Gamaliel-specific parameters (like `convert_scripture_links`, `theology`) directly as method arguments. The SDK automatically includes them in the JSON request body via `**kwargs`.
 - **Custom Headers**: Use `default_headers` (Python) or `defaultHeaders` (JavaScript) when initializing the client to set headers like `X-Convert-Scripture-Links`. Headers take precedence over body parameters. Note: Headers apply to all requests from that client instance; for per-request customization, use body parameters or create separate client instances.
 
 **Q: Will TypeScript show errors for Gamaliel-specific parameters?**  
 A: TypeScript may show warnings for unknown parameters. You can suppress them with `as any`, use `@ts-ignore`, or extend the OpenAI types. See [TypeScript Type Safety](examples/javascript-sdk.md#typescript-type-safety) for options.
 
-**Q: What happens if I provide an invalid `theology_slug` or `profile_slug`?**  
+**Q: What happens if I provide an invalid `theology` or `profile`?**  
 A: The API returns a 400 error with available options. Use `GET /v1/theologies` and `GET /v1/profiles` to see valid slugs.
 
 **Q: Can I maintain conversation history?**  

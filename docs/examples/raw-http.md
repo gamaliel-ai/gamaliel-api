@@ -19,8 +19,8 @@ response = requests.post(
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
         ],
         'stream': False,
-        'profile_slug': 'universal_explorer',
-        'theology_slug': 'default',
+        'profile': 'universal_explorer',
+        'theology': 'default',
         'max_words': 300
     }
 )
@@ -119,8 +119,8 @@ curl https://api.gamaliel.ai/v1/chat/completions \
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    "theology_slug": "default",
-    "profile_slug": "universal_explorer"
+    "theology": "default",
+    "profile": "universal_explorer"
   }'
 ```
 

@@ -17,8 +17,8 @@ response = client.chat.completions.create(
     ],
     stream=False,
     # Gamaliel-specific parameters - SDK passes these through automatically
-    theology_slug="reformed",
-    profile_slug="universal_explorer",
+    theology="reformed",
+    profile="universal_explorer",
     book_id="MAT",
     chapter=6,
     verses=[14, 15],

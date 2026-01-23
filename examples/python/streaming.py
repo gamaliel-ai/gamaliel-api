@@ -14,7 +14,7 @@ stream = client.chat.completions.create(
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
     stream=True,
-    theology_slug="default",
+    theology="default",
     book_id="MAT",
     chapter=6
 )

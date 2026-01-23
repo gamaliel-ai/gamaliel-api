@@ -47,7 +47,7 @@ The API uses standard HTTP status codes and OpenAI-compatible error formats.
 ```json
 {
   "error": {
-    "message": "Invalid theology_slug: 'invalid_theology'. Use GET /v1/theologies to see available options.",
+    "message": "Invalid theology: 'invalid_theology'. Use GET /v1/theologies to see available options.",
     "type": "invalid_request_error",
     "code": "invalid_parameter"
   }

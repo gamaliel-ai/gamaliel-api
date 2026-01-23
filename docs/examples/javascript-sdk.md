@@ -21,8 +21,8 @@ const response = await openai.chat.completions.create({
   ],
   stream: false,
   // Gamaliel-specific parameters - SDK passes these through automatically
-  theology_slug: 'reformed',
-  profile_slug: 'universal_explorer',
+  theology: 'reformed',
+  profile: 'universal_explorer',
   book_id: 'MAT',
   chapter: 6,
   verses: [14, 15],
@@ -49,7 +49,7 @@ const stream = await openai.chat.completions.create({
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
   stream: true,
-  theology_slug: 'default',
+  theology: 'default',
   book_id: 'MAT',
   chapter: 6
 } as any);
@@ -142,7 +142,7 @@ TypeScript will show warnings for unknown parameters. You have several options:
 ```typescript
 const response = await openai.chat.completions.create({
   // ... standard params
-  theology_slug: 'reformed',  // TypeScript warning
+  theology: 'reformed',  // TypeScript warning
 } as any);  // Suppress warning
 ```
 
@@ -152,8 +152,8 @@ const response = await openai.chat.completions.create({
 import OpenAI from 'openai';
 
 interface GamalielChatCompletionCreateParams extends OpenAI.Chat.Completions.ChatCompletionCreateParams {
-  theology_slug?: string;
-  profile_slug?: string;
+  theology?: string;
+  profile?: string;
   book_id?: string;
   chapter?: number;
   verses?: number[];
@@ -166,7 +166,7 @@ interface GamalielChatCompletionCreateParams extends OpenAI.Chat.Completions.Cha
 
 const response = await openai.chat.completions.create({
   // ... params
-  theology_slug: 'reformed',  // No warning!
+  theology: 'reformed',  // No warning!
 } as GamalielChatCompletionCreateParams);
 ```
 
@@ -176,7 +176,7 @@ const response = await openai.chat.completions.create({
 // @ts-ignore - Gamaliel-specific parameters
 const response = await openai.chat.completions.create({
   // ... params
-  theology_slug: 'reformed',
+  theology: 'reformed',
 });
 ```
 

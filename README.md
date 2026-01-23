@@ -25,8 +25,8 @@ response = client.chat.completions.create(
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
-    theology_slug="default",
-    profile_slug="universal_explorer"
+    theology="default",
+    profile="universal_explorer"
 )
 
 print(response.choices[0].message.content)
