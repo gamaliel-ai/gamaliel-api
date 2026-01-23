@@ -40,6 +40,8 @@ navigation:
         url: /docs/examples/advanced/
   - title: Guides
     children:
+      - title: Customizing Responses
+        url: /docs/guides/customizing-responses/
       - title: Testing with Open WebUI
         url: /docs/guides/testing-with-open-webui/
   - title: Reference
