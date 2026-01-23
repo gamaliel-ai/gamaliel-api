@@ -21,6 +21,8 @@ body {
 /* Navigation */
 .site-nav {
   width: 280px;
+  min-width: 280px;
+  flex-shrink: 0;
   background-color: #f8f9fa;
   border-right: 1px solid #e1e4e8;
   padding: 1.5rem 0;
@@ -99,7 +101,8 @@ body {
 
 /* Main content */
 .site-main {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
