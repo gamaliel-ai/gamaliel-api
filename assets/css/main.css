@@ -1,4 +1,8 @@
 /* Reset and base styles */
+:root {
+  --nav-width: 280px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -20,8 +24,8 @@ body {
 
 /* Navigation */
 .site-nav {
-  width: 280px;
-  min-width: 280px;
+  width: var(--nav-width);
+  min-width: var(--nav-width);
   flex-shrink: 0;
   background-color: #f8f9fa;
   border-right: 1px solid #e1e4e8;
