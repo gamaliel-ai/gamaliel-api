@@ -30,11 +30,8 @@ POST /v1/chat/completions
 - `bible_id` (string, optional): Bible translation ID. Defaults to "eng-web"
 - `max_words` (integer, optional): Maximum response length in words. Defaults to 300
 - `system_instructions` (string, optional): Custom tone/format/audience instructions (appended to mandatory guardrails). Examples: Discord bot for youth group, Christian counseling app, atheist/skeptical audience, children, new believers, minimal citations, academic context. See docs/guides/customizing-responses.md for detailed use case examples.
-- `convert_scripture_links` (boolean, optional): Convert scripture refs to markdown links. Defaults to true
+- `disable_scripture_links` (boolean, optional): Disable scripture link conversion. Defaults to false. When false (default), references are converted to markdown links pointing to Gamaliel reader. When true, references remain as plain text without links.
 - `skip_preflight` (boolean, optional): Skip input validation. Defaults to false
-
-### Headers
-- `X-Convert-Scripture-Links` (string, optional): "true"/"false" to control scripture link conversion. Takes precedence over body parameter.
 
 ## Other Endpoints
 - GET /v1/theologies - List available theology options

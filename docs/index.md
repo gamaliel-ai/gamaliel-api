@@ -133,10 +133,8 @@ A: Yes! The Public API uses the exact same underlying system as the Gamaliel web
 **Q: How do system messages work?**  
 A: Mandatory Gamaliel guardrails + theology + profile are always included. User-provided `system_instructions` are appended for tone/format customization but cannot override guardrails. See [System Messages](endpoints/chat-completions.md#system-messages) for details.
 
-**Q: Do SDKs support custom parameters and headers?**  
-A: Yes! Most SDKs (including OpenAI's official SDKs) support both approaches:
-- **Extra Parameters**: Pass Gamaliel-specific parameters (like `convert_scripture_links`, `theology`) directly as method arguments. The SDK automatically includes them in the JSON request body via `**kwargs`.
-- **Custom Headers**: Use `default_headers` (Python) or `defaultHeaders` (JavaScript) when initializing the client to set headers like `X-Convert-Scripture-Links`. Headers take precedence over body parameters. Note: Headers apply to all requests from that client instance; for per-request customization, use body parameters or create separate client instances.
+**Q: Do SDKs support custom parameters?**  
+A: Yes! Most SDKs (including OpenAI's official SDKs) support custom parameters. Pass Gamaliel-specific parameters (like `disable_scripture_links`, `theology`) directly as method arguments. The SDK automatically includes them in the JSON request body via `**kwargs`.
 
 **Q: Will TypeScript show errors for Gamaliel-specific parameters?**  
 A: TypeScript may show warnings for unknown parameters. You can suppress them with `as any`, use `@ts-ignore`, or extend the OpenAI types. See [TypeScript Type Safety](examples/javascript-sdk.md#typescript-type-safety) for options.
@@ -147,8 +145,8 @@ A: The API returns a 400 error with available options. Use `GET /v1/theologies` 
 **Q: Can I maintain conversation history?**  
 A: Yes, include previous messages in the `messages` array (standard OpenAI pattern). The API is stateless, so you manage history client-side. See [Conversation History](examples/advanced.md#conversation-history) for examples.
 
-**Q: How do I disable or customize scripture links?**  
-A: By default, scripture references are automatically converted to markdown links (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`). To disable this, set `convert_scripture_links: false` in the request body, or use the `X-Convert-Scripture-Links: false` header (header takes precedence). When disabled, references remain as plain text (e.g., "Matthew 5:1-16"). See [Scripture Links Customization](endpoints/chat-completions.md#scripture-links-customization) for details and examples.
+**Q: How do I disable scripture links?**  
+A: By default, scripture references are automatically converted to markdown links that point to the Gamaliel reader (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`). To disable this, set `disable_scripture_links: true` in the request body. When disabled, references remain as plain text without links (e.g., "Matthew 5:1-16"). See [Disabling Scripture Links](endpoints/chat-completions.md#disabling-scripture-links) for details and examples.
 
 **Q: What is preflight validation?**  
 A: Preflight validation is a fast input categorization step that happens before requests reach the chat agent. It filters invalid inputs, improves security, and reduces costs. Support questions return blank responses, greetings return helpful messages, and malicious/inappropriate inputs are rejected with errors. You can disable it with `skip_preflight: true` if needed. See [Preflight Validation](endpoints/chat-completions.md#preflight-validation) for details.

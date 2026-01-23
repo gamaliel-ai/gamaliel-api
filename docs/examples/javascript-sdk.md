@@ -86,7 +86,7 @@ console.log(response.choices[0].message.content);
 
 ## Disabling Scripture Links
 
-### Using Body Parameter
+By default, scripture references are automatically converted to markdown links that point to the Gamaliel reader (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`). To disable this and get plain text references instead, set `disable_scripture_links: true`:
 
 ```typescript
 import OpenAI from 'openai';
@@ -101,36 +101,12 @@ const response = await openai.chat.completions.create({
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
-  convert_scripture_links: false  // Disable automatic link conversion
+  disable_scripture_links: true  // Disable automatic link conversion
 } as any);
 
 console.log(response.choices[0].message.content);
 // Output: "The Bible teaches that forgiveness is central... In Matthew 6:14-15, Jesus says..."
 // (plain text references, no markdown links)
-```
-
-### Using Custom Headers
-
-```typescript
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: 'sk-...',
-  baseURL: 'https://api.gamaliel.ai/v1',
-  defaultHeaders: {
-    'X-Convert-Scripture-Links': 'false'  // Header takes precedence
-  }
-});
-
-const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
-  messages: [
-    { role: 'user', content: 'What does the Bible say about forgiveness?' }
-  ]
-  // convert_scripture_links parameter not needed - header takes precedence
-} as any);
-
-console.log(response.choices[0].message.content);
 ```
 
 ## TypeScript Type Safety
@@ -160,7 +136,7 @@ interface GamalielChatCompletionCreateParams extends OpenAI.Chat.Completions.Cha
   bible_id?: string;
   max_words?: number;
   system_instructions?: string;
-  convert_scripture_links?: boolean;
+  disable_scripture_links?: boolean;
   skip_preflight?: boolean;
 }
 

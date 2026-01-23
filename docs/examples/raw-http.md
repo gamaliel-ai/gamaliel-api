@@ -86,6 +86,8 @@ while (true) {
 
 ## Disabling Scripture Links (Python requests)
 
+By default, scripture references are automatically converted to markdown links that point to the Gamaliel reader (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`). To disable this and get plain text references instead, set `disable_scripture_links: true`:
+
 ```python
 import requests
 
@@ -93,14 +95,14 @@ response = requests.post(
     'https://api.gamaliel.ai/v1/chat/completions',
     headers={
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk-...',
-        'X-Convert-Scripture-Links': 'false'  # Header takes precedence
+        'Authorization': 'Bearer sk-...'
     },
     json={
         'model': 'gpt-4o-mini',
         'messages': [
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
-        ]
+        ],
+        'disable_scripture_links': True  # Disable automatic link conversion
     }
 )
 

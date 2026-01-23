@@ -106,12 +106,8 @@ data: [DONE]
 - `theology` (string): Theological perspective (e.g., `"default"`, `"reformed"`, `"catholic"`). Defaults to `"default"`. Use `GET /v1/theologies` to see available options.
 - `max_words` (integer): Maximum response length in words. Defaults to 300
 - `system_instructions` (string): Optional tone/format instructions (e.g., `"You are speaking to high school students. Keep responses concise."`). These are appended to the mandatory system message
-- `convert_scripture_links` (boolean, optional): Whether to convert scripture references to markdown links. Defaults to `true`. When `true`, references like "Matthew 5:1-16" are converted to `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`. When `false`, references remain as plain text.
+- `disable_scripture_links` (boolean, optional): Whether to disable scripture link conversion. Defaults to `false`. When `false` (default), references like "Matthew 5:1-16" are converted to `[Matthew 5:1-16](/read/MAT/5?verse=1-16)` which links to the Gamaliel reader. When `true`, references remain as plain text without links.
 - `skip_preflight` (boolean, optional): Whether to skip preflight validation. Defaults to `false`. When `true`, bypasses input validation and categorization. See "Preflight Validation" section below for details.
-
-### Request Headers
-
-- `X-Convert-Scripture-Links` (string, optional): Controls whether scripture references are converted to markdown links. Defaults to `"true"`. Accepted values: `"true"`, `"1"`, `"yes"` (enable), `"false"`, `"0"`, `"no"` (disable). Header takes precedence over `convert_scripture_links` body parameter.
 
 ## Limitations
 
@@ -143,32 +139,19 @@ Gamaliel is designed as a **complete biblical intelligence system** rather than 
 
 If you need custom tool execution or agent workflows, consider using OpenAI's API directly with your own tool implementations.
 
-## Scripture Links Customization
+## Disabling Scripture Links
 
-By default, the API automatically converts scripture references (e.g., "Matthew 5:1-16", "Genesis 1:1") into markdown links that point to the Gamaliel reader. You can control this behavior in two ways:
-
-### Option 1: Request Header (Recommended)
-
-Use the `X-Convert-Scripture-Links` header to control link conversion. The header takes precedence over the body parameter.
-
-```http
-X-Convert-Scripture-Links: false
-```
-
-Accepted header values (case-insensitive):
-- `"true"`, `"1"`, `"yes"` - Enable scripture links (default)
-- `"false"`, `"0"`, `"no"` - Disable scripture links
-
-### Option 2: Body Parameter
-
-Include `convert_scripture_links` in the request body:
+By default, the API automatically converts scripture references (e.g., "Matthew 5:1-16", "Genesis 1:1") into markdown links that point to the Gamaliel reader (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`). You can disable this behavior using the `disable_scripture_links` body parameter:
 
 ```json
 {
   "messages": [...],
-  "convert_scripture_links": false
+  "disable_scripture_links": true
 }
 ```
+
+- `false` (default): Scripture references are converted to markdown links pointing to the Gamaliel reader (e.g., `[Matthew 5:1-16](/read/MAT/5?verse=1-16)`)
+- `true`: Scripture references remain as plain text without links (e.g., "Matthew 5:1-16")
 
 ### When to Disable Scripture Links
 
@@ -402,13 +385,7 @@ The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API. You 
 
 **How SDKs Handle Custom Parameters:**
 
-Most SDKs (including OpenAI's official SDKs) support custom parameters in two ways:
-
-1. **Extra Parameters in Method Calls**: The OpenAI SDK accepts `**kwargs` and automatically includes any extra parameters in the JSON request body. This means Gamaliel-specific parameters like `theology`, `convert_scripture_links`, etc. are automatically passed through without any special handling.
-
-2. **Custom Headers**: The OpenAI SDK supports custom headers via the `default_headers` parameter when initializing the client. This is useful for headers like `X-Convert-Scripture-Links` that take precedence over body parameters.
-
-**Note:** When using headers, they apply to all requests from that client instance. If you need per-request header customization, you may need to create separate client instances or use raw HTTP requests.
+Most SDKs (including OpenAI's official SDKs) support custom parameters via extra parameters in method calls. The OpenAI SDK accepts `**kwargs` and automatically includes any extra parameters in the JSON request body. This means Gamaliel-specific parameters like `theology`, `disable_scripture_links`, etc. are automatically passed through without any special handling.
 
 ## Related Documentation
 
