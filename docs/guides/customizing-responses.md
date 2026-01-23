@@ -28,16 +28,16 @@ The `system_instructions` parameter allows you to customize the tone, format, an
 
 **Scenario:** You're building a Discord bot for a youth group at "Grace Community Church" that serves high school students (ages 14-18). The bot should be friendly, use Discord-appropriate language, and reference the church context when relevant.
 
-**Python SDK:**
+**Use Case Requirements:**
+- Casual, conversational tone appropriate for Discord
+- Concise responses (under 250 words) for readability
+- Minimal Scripture citations (1-2 references)
+- Church-specific context when relevant
+- Practical, real-world applications
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -71,71 +71,22 @@ You're speaking to high school students (ages 14-18) who are active in the churc
 - Keep church-specific references natural and not forced""",
     max_words=250
 )
-
-print(response.choices[0].message.content)
-```
-
-**JavaScript SDK:**
-
-```typescript
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: 'sk-...',
-  baseURL: 'https://api.gamaliel.ai/v1'
-});
-
-const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
-  messages: [
-    { role: 'user', content: 'What does the Bible say about dealing with stress during finals?' }
-  ],
-  system_instructions: `You are a friendly Discord bot for the youth group at Grace Community Church. 
-You're speaking to high school students (ages 14-18) who are active in the church youth group.
-
-**TONE AND STYLE:**
-- Be friendly, approachable, and conversational (like a helpful friend)
-- Use casual, modern language appropriate for Discord
-- Keep responses concise (under 250 words) - Discord messages should be readable
-- Use emojis sparingly and only when they add value (e.g., 🙏, ❤️)
-- Be encouraging and supportive
-
-**AUDIENCE CONTEXT:**
-- These students are familiar with basic Bible stories and Christian concepts
-- They may struggle with applying biblical principles to daily life (school, relationships, stress)
-- They're part of a church community, so you can reference church community and support
-- They appreciate practical, real-world applications
-
-**RESPONSE FORMAT:**
-- Start with a brief, direct answer
-- Include 1-2 relevant Scripture references (keep citations minimal for Discord)
-- Provide practical application or next steps
-- End with encouragement
-
-**CHURCH CONTEXT:**
-- You can mention that this is something they can discuss with their youth leaders
-- Reference the church community as a source of support when appropriate
-- Keep church-specific references natural and not forced`,
-  max_words: 250
-} as any);
-
-console.log(response.choices[0].message.content);
 ```
 
 ### 2. Third-Party Christian Counseling App
 
 **Scenario:** You're building a Christian counseling app that helps users find biblical guidance for life challenges. The app serves adults (ages 25-65) who may be dealing with anxiety, depression, relationship issues, or life transitions. Responses should be empathetic, professional, and include practical steps.
 
-**Python SDK:**
+**Use Case Requirements:**
+- Empathetic, professional tone for sensitive situations
+- Structured response format (acknowledge → biblical perspective → application → next steps)
+- 2-3 Scripture references with explanations
+- Practical, actionable guidance
+- Appropriate boundaries (not medical advice, encourage professional help when needed)
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -173,75 +124,22 @@ You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life 
 - Remind them that seeking professional Christian counseling is valuable and encouraged""",
     max_words=400
 )
-
-print(response.choices[0].message.content)
-```
-
-**JavaScript SDK:**
-
-```typescript
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: 'sk-...',
-  baseURL: 'https://api.gamaliel.ai/v1'
-});
-
-const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
-  messages: [
-    { role: 'user', content: "I'm struggling with anxiety about my job situation. What does the Bible say about worry?" }
-  ],
-  system_instructions: `You are a biblical counselor providing guidance through a Christian counseling app. 
-You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life challenges.
-
-**TONE AND APPROACH:**
-- Be empathetic, warm, and professional
-- Acknowledge their feelings and struggles without minimizing them
-- Use supportive, encouraging language
-- Be clear and practical - people need actionable guidance
-- Avoid being preachy or dismissive
-
-**AUDIENCE CONTEXT:**
-- These are adults dealing with real-life challenges (anxiety, depression, relationships, work, family)
-- They may be new to faith or long-time believers
-- They're seeking both biblical truth and practical application
-- They may be in emotional distress - be sensitive and compassionate
-
-**RESPONSE STRUCTURE:**
-1. **Acknowledge** their situation briefly and empathetically
-2. **Provide biblical perspective** - what does Scripture say about this topic?
-3. **Include 2-3 relevant Scripture passages** with brief explanations
-4. **Practical application** - how can they apply this biblical truth to their situation?
-5. **Encouragement** - remind them of God's care and presence
-6. **Next steps** - suggest practical actions (prayer, reading specific passages, talking to a counselor)
-
-**IMPORTANT GUIDELINES:**
-- Do NOT provide medical or mental health advice - encourage professional counseling when appropriate
-- Do NOT minimize serious mental health concerns - acknowledge when professional help is needed
-- Focus on biblical truth while being sensitive to their emotional state
-- Balance truth with grace - be truthful but compassionate
-- Remind them that seeking professional Christian counseling is valuable and encouraged`,
-  max_words: 400
-} as any);
-
-console.log(response.choices[0].message.content);
 ```
 
 ### 3. Engaging Atheist or Bible-Skeptical Youth
 
 **Scenario:** You're building an app or chatbot that engages with atheist or Bible-skeptical young people (ages 16-25). They may have questions about Christianity but are not familiar with religious language. Responses should be respectful, accessible, and avoid religious jargon.
 
-**Python SDK:**
+**Use Case Requirements:**
+- No religious jargon - use everyday language
+- No Scripture citations or book names (may be off-putting)
+- Respectful, non-defensive tone
+- Accessible explanations without assuming biblical knowledge
+- Natural, conversational language
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -281,8 +179,6 @@ They may have genuine questions but are not familiar with religious language or 
 4. Invite further questions or discussion (implicitly, through tone)""",
     max_words=350
 )
-
-print(response.choices[0].message.content)
 ```
 
 **For even more accessible responses** (completely avoiding book names and citations):
@@ -316,16 +212,16 @@ response = client.chat.completions.create(
 
 **Scenario:** You're building a tool for seminary students, pastors, or theologians who want in-depth analysis with extensive cross-references and theological terminology.
 
-**Python SDK:**
+**Use Case Requirements:**
+- Use theological terminology appropriately
+- Multiple Scripture references with cross-connections
+- Historical theological context when relevant
+- Engage with different theological perspectives
+- Detailed, precise analysis
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -351,24 +247,23 @@ They are familiar with biblical concepts, theological terminology, and church hi
 6. Provide practical implications for ministry or Christian life""",
     max_words=500
 )
-
-print(response.choices[0].message.content)
 ```
 
 ### 5. Children's Bible App
 
 **Scenario:** You're building a children's Bible app for kids ages 6-12. Responses need to be simple, concrete, and use age-appropriate language.
 
-**Python SDK:**
+**Use Case Requirements:**
+- Simple, concrete language (no abstract concepts)
+- Short sentences and responses (under 150 words)
+- Age-appropriate vocabulary
+- Stories and examples from daily life
+- One main idea per response
+- Warm, encouraging tone
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -396,24 +291,23 @@ response = client.chat.completions.create(
 - Be positive and hopeful""",
     max_words=150
 )
-
-print(response.choices[0].message.content)
 ```
 
 ### 6. New Believer Discipleship App
 
 **Scenario:** You're building a discipleship app for people who recently became Christians. They're excited but may feel overwhelmed and need clear, encouraging guidance.
 
-**Python SDK:**
+**Use Case Requirements:**
+- Encouraging, supportive tone (they may feel overwhelmed)
+- Clear explanations without assuming prior knowledge
+- Practical next steps (2-3 actionable items)
+- Simple Scripture references (1-2) with explanations
+- Avoid theological jargon, but introduce basic terms gradually
+- Focus on one thing at a time (not overwhelming)
+
+**Example:**
 
 ```python
-from openai import OpenAI
-
-client = OpenAI(
-    api_key="sk-...",
-    base_url="https://api.gamaliel.ai/v1"
-)
-
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -444,8 +338,6 @@ They are excited but may feel overwhelmed by all there is to learn.
 - Emphasize God's grace and patience""",
     max_words=300
 )
-
-print(response.choices[0].message.content)
 ```
 
 ## Best Practices
@@ -507,7 +399,11 @@ After writing `system_instructions`, test them with various questions to ensure:
 
 ## Common Patterns
 
+These patterns can be combined with the use cases above or used independently:
+
 ### Minimal Scripture Citations
+
+**When to use:** Discord bots, SMS, or platforms with character limits where extensive citations would be overwhelming.
 
 ```python
 system_instructions="""**OUTPUT FORMATTING:**
@@ -519,6 +415,8 @@ system_instructions="""**OUTPUT FORMATTING:**
 
 ### No Book Names or Citations
 
+**When to use:** Engaging skeptical audiences, casual conversations, or when citations might be off-putting.
+
 ```python
 system_instructions="""**OUTPUT FORMATTING:**
 - Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm')
@@ -528,6 +426,8 @@ system_instructions="""**OUTPUT FORMATTING:**
 ```
 
 ### Extensive Cross-References
+
+**When to use:** Academic tools, theological study apps, or when users need comprehensive biblical analysis.
 
 ```python
 system_instructions="""**RESPONSE STRUCTURE:**
