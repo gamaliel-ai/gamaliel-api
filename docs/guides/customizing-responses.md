@@ -24,13 +24,13 @@ The `system_instructions` parameter allows you to customize the tone, format, an
 
 ### Validation and Performance
 
-The API service validates all `system_instructions` to ensure they comply with theological guardrails and do not attempt to override or work around these protections (see [guardrails.md](../../gamaliel-prompts/guardrails.md) for details). 
+The API service validates all `system_instructions` to ensure they comply with theological guardrails and do not attempt to override or work around these protections. 
 
 **Performance optimization:** Validation results are cached based on a hash of the system prompt. This means:
 - ✅ **Reusing the same system prompt**: No performance impact—validation is cached and instant
 - ⚠️ **Variable text in system prompts**: If you include variable content (e.g., user names, timestamps, or dynamic context), each unique prompt will require revalidation, adding approximately 100ms to the preprocessing step
 
-**Best practice:** For optimal performance, use a static `system_instructions` string that doesn't change between requests. If you need dynamic content, consider including it in the user message instead of the system instructions.
+**Best practice:** For optimal performance, use a static `system_instructions` string that doesn't change between requests. If you need dynamic content, consider including it in the user message(s) instead of the system instructions.
 
 ## Use Case Examples
 
