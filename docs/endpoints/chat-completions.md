@@ -22,6 +22,10 @@ Authorization: Bearer sk-... (required)
   "model": "gpt-4o-mini",  // Optional, defaults to gpt-4o-mini
   "messages": [
     {
+      "role": "system",
+      "content": "You are speaking to high school students. Keep responses concise and practical."
+    },
+    {
       "role": "user",
       "content": "What does the Bible say about forgiveness?"
     }
@@ -35,8 +39,7 @@ Authorization: Bearer sk-... (required)
   "bible_id": "eng-web",  // Optional Bible translation ID, defaults to "eng-web"
   "profile": "universal_explorer",  // Optional profile slug
   "theology": "default",  // Optional theology slug
-  "max_words": 300,  // Optional response length limit in words
-  "system_instructions": "You are speaking to high school students. Keep responses concise and practical."  // Optional tone/format instructions
+  "max_words": 300  // Optional response length limit in words
 }
 ```
 
@@ -92,7 +95,7 @@ data: [DONE]
 
 - `model` (string, optional): Model name. Defaults to `gpt-4o-mini`
 - `messages` (array, required): Array of message objects with `role` and `content`
-  - `role`: `"user"`, `"assistant"`, or `"system"` (system messages are handled via `system_instructions` parameter)
+  - `role`: `"user"`, `"assistant"`, or `"system"` (multiple system messages are concatenated with `\n\n`)
   - `content`: Message content string
 - `stream` (boolean, optional): Whether to stream responses. Defaults to `false`
 
@@ -105,7 +108,6 @@ data: [DONE]
 - `profile` (string): Pre-defined profile slug (e.g., `"universal_explorer"`, `"mature_believer"`). Defaults to `"universal_explorer"`. Use `GET /v1/profiles` to see available options.
 - `theology` (string): Theological perspective (e.g., `"default"`, `"reformed"`, `"catholic"`). Defaults to `"default"`. Use `GET /v1/theologies` to see available options.
 - `max_words` (integer): Maximum response length in words. Defaults to 300
-- `system_instructions` (string): Optional tone/format instructions (e.g., `"You are speaking to high school students. Keep responses concise."`). These are appended to the mandatory system message
 - `disable_scripture_links` (boolean, optional): Whether to disable scripture link conversion. Defaults to `false`. When `false` (default), references like "Matthew 5:1-16" are converted to `[Matthew 5:1-16](/read/MAT/5?verse=1-16)` which links to the Gamaliel reader. When `true`, references remain as plain text without links.
 - `skip_preflight` (boolean, optional): Whether to skip preflight validation. Defaults to `false`. When `true`, bypasses input validation and categorization. See "Preflight Validation" section below for details.
 
@@ -230,6 +232,8 @@ You can disable preflight validation by setting `skip_preflight: true` in your r
 
 ## System Messages
 
+The API supports standard OpenAI-compatible `system` role messages in the `messages` array. If multiple system messages are provided, they are concatenated together with a double newline (`\n\n`) separator.
+
 The API automatically constructs a comprehensive system message that combines:
 
 ### 1. Mandatory Core (Always Included)
@@ -238,11 +242,23 @@ The API automatically constructs a comprehensive system message that combines:
 - **Theology Guidelines**: Instructions from the selected theology (via `theology`)
 - **Profile Instructions**: Instructions from the selected profile (via `profile`)
 
-### 2. Optional User Instructions
+### 2. Optional User System Message
 
-If `system_instructions` is provided, it's appended to the core system message. This allows you to customize tone, format, and audience-specific guidance without overriding theological guardrails.
+If a `system` role message is provided in the `messages` array, its content is appended to the core system message. This allows you to customize tone, format, and audience-specific guidance without overriding theological guardrails.
 
-**Important:** User-provided `system_instructions` cannot override or contradict the mandatory theological guardrails. They are purely additive for tone, format, and audience-specific guidance.
+**Important:** User-provided system message content cannot override or contradict the mandatory theological guardrails. They are purely additive for tone, format, and audience-specific guidance. All system messages are validated against theological guardrails before processing.
+
+**Multiple System Messages:** If you provide multiple `system` role messages, they are concatenated together with `\n\n` between them. This allows you to organize long instructions into logical sections:
+
+```json
+{
+  "messages": [
+    {"role": "system", "content": "TONE: Speak to high school students..."},
+    {"role": "system", "content": "FORMAT: Use bullet points, max 200 words..."},
+    {"role": "user", "content": "What does the Bible say about anxiety?"}
+  ]
+}
+```
 
 ### Use Case Examples
 
@@ -253,9 +269,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "You are speaking to high school students (ages 14-18) in a Christian youth group. They are familiar with basic Bible stories but may struggle with applying biblical principles to their daily lives. Use relatable examples, avoid theological jargon, and focus on practical application."},
     {"role": "user", "content": "What does the Bible say about peer pressure?"}
-  ],
-  "system_instructions": "You are speaking to high school students (ages 14-18) in a Christian youth group. They are familiar with basic Bible stories but may struggle with applying biblical principles to their daily lives. Use relatable examples, avoid theological jargon, and focus on practical application."
+  ]
 }
 ```
 
@@ -266,9 +282,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible. They may have questions about Christianity but are not familiar with religious language or concepts. Use normal, everyday language. Avoid theological jargon. Explain biblical concepts naturally, as if explaining to a friend. Still search Scripture to find the most biblical content related to the question, but express it in accessible language. Be respectful of their perspective while presenting biblical truth clearly."},
     {"role": "user", "content": "Why do Christians believe in God?"}
-  ],
-  "system_instructions": "You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible. They may have questions about Christianity but are not familiar with religious language or concepts. Use normal, everyday language. Avoid theological jargon. Explain biblical concepts naturally, as if explaining to a friend. Still search Scripture to find the most biblical content related to the question, but express it in accessible language. Be respectful of their perspective while presenting biblical truth clearly."
+  ]
 }
 ```
 
@@ -277,9 +293,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "**OUTPUT FORMATTING:**\n- Do NOT quote Scripture passages verbatim\n- Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm')\n- Do NOT include chapter numbers or verse citations (e.g., 'John 3:16', 'Romans 8:28')\n- Answer in normal, everyday language as if explaining to a friend\n- Use the biblical content you find to inform your answer, but express it naturally in your own words\n- You may mention 'The Bible' or 'biblical teaching' but do not cite specific books or passages\n\n**LANGUAGE AND APPROACH:**\n- Use normal, conversational language\n- Explain concepts without assuming prior biblical knowledge\n- Present ideas naturally, as if explaining to a friend\n- Still search Scripture to find the most biblical content related to the question\n- Express biblical concepts in everyday language without quoting passages verbatim or mentioning book names"},
     {"role": "user", "content": "Why do Christians believe in God?"}
-  ],
-  "system_instructions": "**OUTPUT FORMATTING:**\n- Do NOT quote Scripture passages verbatim\n- Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm')\n- Do NOT include chapter numbers or verse citations (e.g., 'John 3:16', 'Romans 8:28')\n- Answer in normal, everyday language as if explaining to a friend\n- Use the biblical content you find to inform your answer, but express it naturally in your own words\n- You may mention 'The Bible' or 'biblical teaching' but do not cite specific books or passages\n\n**LANGUAGE AND APPROACH:**\n- Use normal, conversational language\n- Explain concepts without assuming prior biblical knowledge\n- Present ideas naturally, as if explaining to a friend\n- Still search Scripture to find the most biblical content related to the question\n- Express biblical concepts in everyday language without quoting passages verbatim or mentioning book names"
+  ]
 }
 ```
 
@@ -290,9 +306,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "**RESPONSE STRUCTURE:**\n1. Answer directly and concisely\n2. Focus on the core concept - keep references minimal\n3. Explain the meaning clearly\n4. Apply practically\n\n**OUTPUT FORMATTING:**\n- When referencing Scripture you find, keep it minimal - focus on one or two key passages\n- Do not include extensive cross-references or multiple Scripture passages\n- Do not draw extensive connections between multiple biblical passages\n- Keep the answer focused and concise"},
     {"role": "user", "content": "What is love?"}
-  ],
-  "system_instructions": "**RESPONSE STRUCTURE:**\n1. Answer directly and concisely\n2. Focus on the core concept - keep references minimal\n3. Explain the meaning clearly\n4. Apply practically\n\n**OUTPUT FORMATTING:**\n- When referencing Scripture you find, keep it minimal - focus on one or two key passages\n- Do not include extensive cross-references or multiple Scripture passages\n- Do not draw extensive connections between multiple biblical passages\n- Keep the answer focused and concise"
+  ]
 }
 ```
 
@@ -303,9 +319,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "You are speaking to someone with theological training. They are familiar with biblical concepts, theological terminology, and church history. Provide thorough analysis with multiple Scripture references and cross-references. Draw connections between passages and explain theological nuances. Use appropriate theological terminology."},
     {"role": "user", "content": "Explain the doctrine of justification by faith"}
-  ],
-  "system_instructions": "You are speaking to someone with theological training. They are familiar with biblical concepts, theological terminology, and church history. Provide thorough analysis with multiple Scripture references and cross-references. Draw connections between passages and explain theological nuances. Use appropriate theological terminology."
+  ]
 }
 ```
 
@@ -316,9 +332,9 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "You are speaking to children (ages 6-12). Use simple, concrete language. Avoid abstract concepts. Use stories and examples they can relate to. Keep responses short (under 150 words). Focus on one main idea. Use words they understand."},
     {"role": "user", "content": "What does the Bible say about sharing?"}
-  ],
-  "system_instructions": "You are speaking to children (ages 6-12). Use simple, concrete language. Avoid abstract concepts. Use stories and examples they can relate to. Keep responses short (under 150 words). Focus on one main idea. Use words they understand."
+  ]
 }
 ```
 
@@ -329,13 +345,13 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ```json
 {
   "messages": [
+    {"role": "system", "content": "You are speaking to a new believer who recently became a Christian. They are excited but may feel overwhelmed. Explain concepts clearly without assuming prior knowledge. Use encouraging, supportive language. Focus on practical next steps. Avoid theological jargon, but introduce basic terms when helpful. Be patient and clear."},
     {"role": "user", "content": "What should I do now that I'm a Christian?"}
-  ],
-  "system_instructions": "You are speaking to a new believer who recently became a Christian. They are excited but may feel overwhelmed. Explain concepts clearly without assuming prior knowledge. Use encouraging, supportive language. Focus on practical next steps. Avoid theological jargon, but introduce basic terms when helpful. Be patient and clear."
+  ]
 }
 ```
 
-### What `system_instructions` Can Do
+### What System Messages Can Do
 
 ✅ **Customize tone and style** (formal, casual, academic, conversational)  
 ✅ **Specify audience** (children, youth, adults, skeptics, new believers)  
@@ -344,7 +360,7 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ✅ **Language level** (simple, technical, accessible)  
 ✅ **Context-specific guidance** (youth group, academic setting, personal counseling)
 
-### What `system_instructions` Cannot Do
+### What System Messages Cannot Do
 
 ❌ **Override theological guardrails** - Core Christian doctrines are always enforced  
 ❌ **Change biblical content** - Scripture references and biblical accuracy are maintained  
@@ -352,7 +368,7 @@ If `system_instructions` is provided, it's appended to the core system message. 
 ❌ **Alter tool behavior** - Biblical search, passage lookup, and other tools work the same way
 
 **See Examples:**
-- [Custom System Instructions](../examples/advanced.md#custom-system-instructions)
+- [System Messages](../examples/advanced.md#system-messages)
 - [Customizing Responses Guide](../guides/customizing-responses.md) - Comprehensive guide with detailed examples for Discord bots, counseling apps, and more
 
 ## Examples

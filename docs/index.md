@@ -83,7 +83,7 @@ print(response.choices[0].message.content)
 
 ### Guides
 
-- [Customizing Responses](guides/customizing-responses/) - Detailed guide for customizing responses with `system_instructions` (Discord bots, counseling apps, youth groups, etc.)
+- [Customizing Responses](guides/customizing-responses/) - Detailed guide for customizing responses with system messages (Discord bots, counseling apps, youth groups, etc.)
 - [Testing with Open WebUI](guides/testing-with-open-webui/) - Manual testing guide
 
 ### Reference
@@ -105,7 +105,7 @@ You can maintain your own conversation history by including previous messages in
 
 - OpenAI keys are never persisted, logged, or tracked
 - System messages always include mandatory theological guardrails
-- User-provided `system_instructions` cannot override guardrails
+- User-provided system messages are appended but cannot override guardrails
 - No authentication required beyond BYOK (no Gamaliel API keys)
 - Stateless operation prevents data leakage between requests
 
@@ -131,7 +131,7 @@ A: Yes! The Public API uses the exact same underlying system as the Gamaliel web
 ### Chat Completions
 
 **Q: How do system messages work?**  
-A: Mandatory Gamaliel guardrails + theology + profile are always included. User-provided `system_instructions` are appended for tone/format customization but cannot override guardrails. See [System Messages](endpoints/chat-completions.md#system-messages) for details.
+A: Mandatory Gamaliel guardrails + theology + profile are always included. User-provided `system` role messages in the messages array are appended for tone/format customization but cannot override guardrails. Multiple system messages are concatenated together. See [System Messages](endpoints/chat-completions.md#system-messages) for details.
 
 **Q: Do SDKs support custom parameters?**  
 A: Yes! Most SDKs (including OpenAI's official SDKs) support custom parameters. Pass Gamaliel-specific parameters (like `disable_scripture_links`, `theology`) directly as method arguments. The SDK automatically includes them in the JSON request body via `**kwargs`.

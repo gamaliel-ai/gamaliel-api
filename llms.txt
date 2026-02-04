@@ -29,7 +29,7 @@ POST /v1/chat/completions
 - `verses` (array of integers, optional): Scripture context - specific verse numbers
 - `bible_id` (string, optional): Bible translation ID. Defaults to "eng-web"
 - `max_words` (integer, optional): Maximum response length in words. Defaults to 300
-- `system_instructions` (string, optional): Custom tone/format/audience instructions (appended to mandatory guardrails). Examples: Discord bot for youth group, Christian counseling app, atheist/skeptical audience, children, new believers, minimal citations, academic context. See docs/guides/customizing-responses.md for detailed use case examples.
+- `messages` array supports `system` role: Custom tone/format/audience instructions via standard system messages (appended to mandatory guardrails). Multiple system messages are concatenated. Examples: Discord bot for youth group, Christian counseling app, atheist/skeptical audience, children, new believers, minimal citations, academic context. See docs/guides/customizing-responses.md for detailed use case examples.
 - `disable_scripture_links` (boolean, optional): Disable scripture link conversion. Defaults to false. When false (default), references are converted to markdown links pointing to Gamaliel reader. When true, references remain as plain text without links.
 - `skip_preflight` (boolean, optional): Skip input validation. Defaults to false
 

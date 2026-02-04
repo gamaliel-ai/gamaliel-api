@@ -56,9 +56,9 @@ const response = await openai.chat.completions.create({
 console.log(response.choices[0].message.content);
 ```
 
-## Custom System Instructions
+## System Messages
 
-Customize the tone, format, and audience-specific guidance without overriding theological guardrails.
+Customize the tone, format, and audience-specific guidance without overriding theological guardrails using standard `system` role messages.
 
 ### Python SDK
 
@@ -73,9 +73,9 @@ client = OpenAI(
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
+        {"role": "system", "content": "You are speaking to high school students (ages 14-18) in a Christian youth group. They are familiar with basic Bible stories but may struggle with applying biblical principles to their daily lives. Use relatable examples, avoid theological jargon, and focus on practical application."},
         {"role": "user", "content": "What does the Bible say about peer pressure?"}
     ],
-    system_instructions="You are speaking to high school students (ages 14-18) in a Christian youth group. They are familiar with basic Bible stories but may struggle with applying biblical principles to their daily lives. Use relatable examples, avoid theological jargon, and focus on practical application.",
     max_words=200
 )
 
@@ -95,9 +95,9 @@ const openai = new OpenAI({
 const response = await openai.chat.completions.create({
   model: 'gpt-4o-mini',
   messages: [
+    { role: 'system', content: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.' },
     { role: 'user', content: 'What does the Bible say about peer pressure?' }
   ],
-  system_instructions: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.',
   max_words: 200
 } as any);
 

@@ -75,9 +75,9 @@ const openai = new OpenAI({
 const response = await openai.chat.completions.create({
   model: 'gpt-4o-mini',
   messages: [
+    { role: 'system', content: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.' },
     { role: 'user', content: 'What does the Bible say about peer pressure?' }
   ],
-  system_instructions: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.',
   max_words: 200
 } as any);
 
@@ -135,7 +135,6 @@ interface GamalielChatCompletionCreateParams extends OpenAI.Chat.Completions.Cha
   verses?: number[];
   bible_id?: string;
   max_words?: number;
-  system_instructions?: string;
   disable_scripture_links?: boolean;
   skip_preflight?: boolean;
 }

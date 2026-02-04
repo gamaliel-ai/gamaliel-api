@@ -97,9 +97,9 @@ client = OpenAI(
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
+        {"role": "system", "content": "You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon."},
         {"role": "user", "content": "What does the Bible say about peer pressure?"}
     ],
-    system_instructions="You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.",
     max_words=200
 )
 

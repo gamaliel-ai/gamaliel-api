@@ -3,34 +3,36 @@ title: Customizing Responses
 layout: default
 ---
 
-# Customizing Responses with `system_instructions`
+# Customizing Responses with System Messages
 
-The `system_instructions` parameter allows you to customize the tone, format, and audience-specific guidance for your application without overriding Gamaliel's theological guardrails. This guide provides detailed examples for common use cases.
+System messages (using the standard `system` role in the `messages` array) allow you to customize the tone, format, and audience-specific guidance for your application without overriding Gamaliel's theological guardrails. This guide provides detailed examples for common use cases.
 
-## Understanding `system_instructions`
+**Multiple System Messages:** If you provide multiple `system` role messages, they are concatenated together with `\n\n` between them. This allows you to organize long instructions into logical sections.
 
-**What it does:**
-- ✅ Customizes tone and style (formal, casual, academic, conversational)
-- ✅ Specifies target audience (children, youth, adults, skeptics, new believers)
-- ✅ Controls response format (minimal citations, no book names, extensive cross-references)
-- ✅ Provides context-specific guidance (youth group, counseling, academic setting)
+## Understanding System Messages
 
-**What it cannot do:**
+**What they do:**
+- ✅ Customize tone and style (formal, casual, academic, conversational)
+- ✅ Specify target audience (children, youth, adults, skeptics, new believers)
+- ✅ Control response format (minimal citations, no book names, extensive cross-references)
+- ✅ Provide context-specific guidance (youth group, counseling, academic setting)
+
+**What they cannot do:**
 - ❌ Override theological guardrails (core Christian doctrines are always enforced)
 - ❌ Change biblical content (Scripture references and accuracy are maintained)
 - ❌ Remove safety filters (content moderation remains active)
 
-**Important:** All `system_instructions` are validated against theological guardrails. Instructions that contradict core Christian doctrines (e.g., denying the Trinity, Scripture authority, or Christ's divinity) will be rejected with a `400 Bad Request` error.
+**Important:** All system messages are validated against theological guardrails. Messages that contradict core Christian doctrines (e.g., denying the Trinity, Scripture authority, or Christ's divinity) will be rejected with a `400 Bad Request` error.
 
 ### Validation and Performance
 
-The API service validates all `system_instructions` to ensure they comply with theological guardrails and do not attempt to override or work around these protections. 
+The API service validates all system messages to ensure they comply with theological guardrails and do not attempt to override or work around these protections. 
 
-**Performance optimization:** Validation results are cached based on a hash of the system prompt. This means:
-- ✅ **Reusing the same system prompt**: No performance impact—validation is cached and instant
-- ⚠️ **Variable text in system prompts**: If you include variable content (e.g., user names, timestamps, or dynamic context), each unique prompt will require revalidation, adding approximately 100ms to the preprocessing step
+**Performance optimization:** Validation results are cached based on a hash of the system message content. This means:
+- ✅ **Reusing the same system message**: No performance impact—validation is cached and instant
+- ⚠️ **Variable text in system messages**: If you include variable content (e.g., user names, timestamps, or dynamic context), each unique message will require revalidation, adding approximately 100ms to the preprocessing step
 
-**Best practice:** For optimal performance, use a static `system_instructions` string that doesn't change between requests. If you need dynamic content, consider including it in the user message(s) instead of the system instructions.
+**Best practice:** For optimal performance, use a static system message that doesn't change between requests. If you need dynamic content, consider including it in the user message(s) instead of the system message.
 
 ## Use Case Examples
 
@@ -51,9 +53,7 @@ The API service validates all `system_instructions` to ensure they comply with t
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "What does the Bible say about dealing with stress during finals?"}
-    ],
-    system_instructions="""You are a friendly Discord bot for the youth group at Grace Community Church. 
+        {"role": "system", "content": """You are a friendly Discord bot for the youth group at Grace Community Church. 
 You're speaking to high school students (ages 14-18) who are active in the church youth group.
 
 **TONE AND STYLE:**
@@ -78,7 +78,9 @@ You're speaking to high school students (ages 14-18) who are active in the churc
 **CHURCH CONTEXT:**
 - You can mention that this is something they can discuss with their youth leaders
 - Reference the church community as a source of support when appropriate
-- Keep church-specific references natural and not forced""",
+- Keep church-specific references natural and not forced"""},
+        {"role": "user", "content": "What does the Bible say about dealing with stress during finals?"}
+    ],
     max_words=250
 )
 ```
@@ -100,9 +102,7 @@ You're speaking to high school students (ages 14-18) who are active in the churc
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "I'm struggling with anxiety about my job situation. What does the Bible say about worry?"}
-    ],
-    system_instructions="""You are a biblical counselor providing guidance through a Christian counseling app. 
+        {"role": "system", "content": """You are a biblical counselor providing guidance through a Christian counseling app. 
 You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life challenges.
 
 **TONE AND APPROACH:**
@@ -131,7 +131,9 @@ You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life 
 - Do NOT minimize serious mental health concerns - acknowledge when professional help is needed
 - Focus on biblical truth while being sensitive to their emotional state
 - Balance truth with grace - be truthful but compassionate
-- Remind them that seeking professional Christian counseling is valuable and encouraged""",
+- Remind them that seeking professional Christian counseling is valuable and encouraged"""},
+        {"role": "user", "content": "I'm struggling with anxiety about my job situation. What does the Bible say about worry?"}
+    ],
     max_words=400
 )
 ```
@@ -153,9 +155,7 @@ You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life 
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "Why do Christians believe in God? It doesn't make sense to me."}
-    ],
-    system_instructions="""You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible and Christianity. 
+        {"role": "system", "content": """You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible and Christianity. 
 They may have genuine questions but are not familiar with religious language or concepts.
 
 **CRITICAL APPROACH:**
@@ -186,7 +186,9 @@ They may have genuine questions but are not familiar with religious language or 
 1. Acknowledge their question and show you understand their perspective
 2. Explain the biblical concept in everyday language
 3. Provide reasoning or context that makes it understandable
-4. Invite further questions or discussion (implicitly, through tone)""",
+4. Invite further questions or discussion (implicitly, through tone)"""},
+        {"role": "user", "content": "Why do Christians believe in God? It doesn't make sense to me."}
+    ],
     max_words=350
 )
 ```
@@ -197,9 +199,7 @@ They may have genuine questions but are not familiar with religious language or 
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "Why do Christians believe in God? It doesn't make sense to me."}
-    ],
-    system_instructions="""**OUTPUT FORMATTING - STRICT RULES:**
+        {"role": "system", "content": """**OUTPUT FORMATTING - STRICT RULES:**
 - Do NOT quote Scripture passages verbatim
 - Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm', 'Matthew')
 - Do NOT include chapter numbers or verse citations (e.g., 'John 3:16', 'Romans 8:28')
@@ -214,7 +214,9 @@ response = client.chat.completions.create(
 - Still search Scripture to find the most biblical content related to the question
 - Express biblical concepts in everyday language without quoting passages verbatim or mentioning book names
 - Be respectful of their perspective - don't be condescending or dismissive
-- Acknowledge their questions and concerns without being defensive"""
+- Acknowledge their questions and concerns without being defensive"""},
+        {"role": "user", "content": "Why do Christians believe in God? It doesn't make sense to me."}
+    ]
 )
 ```
 
@@ -235,9 +237,7 @@ response = client.chat.completions.create(
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "Explain the doctrine of justification by faith"}
-    ],
-    system_instructions="""You are speaking to someone with theological training - seminary students, pastors, or theologians. 
+        {"role": "system", "content": """You are speaking to someone with theological training - seminary students, pastors, or theologians. 
 They are familiar with biblical concepts, theological terminology, and church history.
 
 **APPROACH:**
@@ -254,7 +254,9 @@ They are familiar with biblical concepts, theological terminology, and church hi
 3. Explain how different passages relate to each other
 4. Address theological nuances or debates if relevant
 5. Connect to broader theological themes
-6. Provide practical implications for ministry or Christian life""",
+6. Provide practical implications for ministry or Christian life"""},
+        {"role": "user", "content": "Explain the doctrine of justification by faith"}
+    ],
     max_words=500
 )
 ```
@@ -277,9 +279,7 @@ They are familiar with biblical concepts, theological terminology, and church hi
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "What does the Bible say about sharing?"}
-    ],
-    system_instructions="""You are speaking to children (ages 6-12) through a children's Bible app.
+        {"role": "system", "content": """You are speaking to children (ages 6-12) through a children's Bible app.
 
 **LANGUAGE:**
 - Use simple, concrete language
@@ -298,7 +298,9 @@ response = client.chat.completions.create(
 **TONE:**
 - Be warm, friendly, and encouraging
 - Use an age-appropriate, gentle tone
-- Be positive and hopeful""",
+- Be positive and hopeful"""},
+        {"role": "user", "content": "What does the Bible say about sharing?"}
+    ],
     max_words=150
 )
 ```
@@ -321,9 +323,7 @@ response = client.chat.completions.create(
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "user", "content": "What should I do now that I'm a Christian?"}
-    ],
-    system_instructions="""You are speaking to a new believer who recently became a Christian. 
+        {"role": "system", "content": """You are speaking to a new believer who recently became a Christian. 
 They are excited but may feel overwhelmed by all there is to learn.
 
 **APPROACH:**
@@ -345,7 +345,9 @@ They are excited but may feel overwhelmed by all there is to learn.
 - Warm, encouraging, and supportive
 - Not overwhelming - focus on one thing at a time
 - Remind them that everyone starts somewhere
-- Emphasize God's grace and patience""",
+- Emphasize God's grace and patience"""},
+        {"role": "user", "content": "What should I do now that I'm a Christian?"}
+    ],
     max_words=300
 )
 ```
@@ -399,9 +401,9 @@ Better:
 express concepts naturally in your own words rather than quoting passages verbatim."
 ```
 
-### 5. Test Your Instructions
+### 5. Test Your System Messages
 
-After writing `system_instructions`, test them with various questions to ensure:
+After writing your system message(s), test them with various questions to ensure:
 - The tone matches your needs
 - The format is appropriate for your platform
 - The length is suitable
@@ -416,11 +418,14 @@ These patterns can be combined with the use cases above or used independently:
 **When to use:** Discord bots, SMS, or platforms with character limits where extensive citations would be overwhelming.
 
 ```python
-system_instructions="""**OUTPUT FORMATTING:**
+messages=[
+    {"role": "system", "content": """**OUTPUT FORMATTING:**
 - When referencing Scripture, keep it minimal - focus on one or two key passages
 - Do not include extensive cross-references or multiple Scripture passages
 - Do not draw extensive connections between multiple biblical passages
-- Keep the answer focused and concise"""
+- Keep the answer focused and concise"""},
+    {"role": "user", "content": "..."}
+]
 ```
 
 ### No Book Names or Citations
@@ -428,11 +433,14 @@ system_instructions="""**OUTPUT FORMATTING:**
 **When to use:** Engaging skeptical audiences, casual conversations, or when citations might be off-putting.
 
 ```python
-system_instructions="""**OUTPUT FORMATTING:**
+messages=[
+    {"role": "system", "content": """**OUTPUT FORMATTING:**
 - Do NOT mention specific book names (e.g., 'John', 'Romans', 'Psalm')
 - Do NOT include chapter numbers or verse citations (e.g., 'John 3:16')
 - Answer in normal, everyday language
-- You may mention 'The Bible' or 'biblical teaching' but do not cite specific books or passages"""
+- You may mention 'The Bible' or 'biblical teaching' but do not cite specific books or passages"""},
+    {"role": "user", "content": "..."}
+]
 ```
 
 ### Extensive Cross-References
@@ -440,21 +448,24 @@ system_instructions="""**OUTPUT FORMATTING:**
 **When to use:** Academic tools, theological study apps, or when users need comprehensive biblical analysis.
 
 ```python
-system_instructions="""**RESPONSE STRUCTURE:**
+messages=[
+    {"role": "system", "content": """**RESPONSE STRUCTURE:**
 - Provide thorough analysis with multiple Scripture references
 - Draw connections between passages and explain theological nuances
 - Include cross-references to related passages
-- Explain how different passages relate to each other"""
+- Explain how different passages relate to each other"""},
+    {"role": "user", "content": "..."}
+]
 ```
 
 ## Validation and Errors
 
-All `system_instructions` are validated against theological guardrails. If your instructions contradict core Christian doctrines, you'll receive a `400 Bad Request` error:
+All system messages are validated against theological guardrails. If your system message contradicts core Christian doctrines, you'll receive a `400 Bad Request` error:
 
 ```json
 {
   "error": {
-    "message": "Custom instructions failed theological validation: [summary]",
+    "message": "System message failed theological validation: [summary]",
     "type": "invalid_request_error",
     "code": "content_filter"
   }
@@ -462,10 +473,10 @@ All `system_instructions` are validated against theological guardrails. If your 
 ```
 
 **What will be rejected:**
-- Instructions denying the Trinity
-- Instructions denying Scripture authority
-- Instructions promoting universalism
-- Instructions denying Christ's divinity
+- Messages denying the Trinity
+- Messages denying Scripture authority
+- Messages promoting universalism
+- Messages denying Christ's divinity
 - Any other contradiction of core Christian doctrines
 
 **What will be accepted:**
