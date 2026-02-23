@@ -71,6 +71,7 @@ print(response.choices[0].message.content)
 ### API Endpoints
 
 - [Chat Completions](endpoints/chat-completions.md) - Main endpoint for biblical chat (`POST /v1/chat/completions`)
+- [Scripture Search](endpoints/scripture-search.md) - Semantic Bible search (`GET /v1/scripture/search`, `POST /v1/scripture/search`)
 - [List Theologies](endpoints/theologies.md) - Get available theology options (`GET /v1/theologies`)
 - [List Profiles](endpoints/profiles.md) - Get available profile options (`GET /v1/profiles`)
 

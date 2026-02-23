@@ -33,10 +33,31 @@ POST /v1/chat/completions
 - `disable_scripture_links` (boolean, optional): Disable scripture link conversion. Defaults to false. When false (default), references are converted to markdown links pointing to Gamaliel reader. When true, references remain as plain text without links.
 - `skip_preflight` (boolean, optional): Skip input validation. Defaults to false
 
+## Scripture Search Endpoint
+GET /v1/scripture/search or POST /v1/scripture/search
+
+Semantic search for Bible chapters by meaning. No authentication required.
+
+### Parameters
+- `q` / `query` (string, required): Search query. Use `q` for GET, `query` in POST body.
+- `bible_id` (string, optional): Bible translation for returned text. Defaults to "eng-web"
+- `limit` (integer, optional): Number of results, 1–20. Defaults to 5
+- `testament` (string, optional): Filter by testament — "Old Testament" or "New Testament"
+- `book` (string, optional): Filter to a specific book by name or ID (e.g. "John", "GEN", "Psalms")
+
+### Examples
+```
+GET /v1/scripture/search?q=love+your+enemies&testament=New+Testament&limit=3
+```
+```json
+POST /v1/scripture/search
+{ "query": "love your enemies", "testament": "New Testament", "limit": 3 }
+```
+
 ## Other Endpoints
-- GET /v1/theologies - List available theology options
-- GET /v1/profiles - List available profile options
-- GET /v1/models - List available models
+- GET /v1/theologies - List available theology slugs for use in `theology` param
+- GET /v1/profiles - List available profile slugs for use in `profile` param
+- GET /v1/models - List supported models
 
 ## Quick Example
 
