@@ -113,6 +113,51 @@ data: [DONE]
 
 ## Limitations
 
+### Conversation Limit
+
+**Each conversation is limited to 5 user messages.**
+
+Gamaliel is designed as a focused biblical question-and-answer service, not a generalized chat agent. Longer conversations introduce safety risks and degrade answer quality, so individual conversations are capped at 5 user messages (messages with `"role": "user"` in the `messages` array).
+
+When the limit is exceeded, the API returns `429 Too Many Requests`:
+
+```json
+{
+  "error": {
+    "message": "Conversation limit reached: this API accepts at most 5 user messages per request. Start a new conversation to continue.",
+    "type": "invalid_request_error",
+    "code": "conversation_limit_exceeded",
+    "limit": 5,
+    "count": 6
+  }
+}
+```
+
+**How to handle this in your application:**
+
+```python
+from openai import RateLimitError
+
+try:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=conversation_history,
+    )
+except RateLimitError as e:
+    if "conversation_limit_exceeded" in str(e):
+        # Start a new conversation
+        conversation_history = []
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": latest_question}],
+        )
+```
+
+**Notes:**
+- Only `"role": "user"` messages count toward the limit — `system` and `assistant` messages do not count
+- The limit applies to the total number of user messages in the `messages` array sent in the request
+- Since the API is stateless, you control the conversation history client-side
+
 ### Tools/Function Calling Not Supported
 
 **The Gamaliel API does not support OpenAI's `tools` or `function_calling` parameters.** 

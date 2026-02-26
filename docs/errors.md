@@ -73,6 +73,28 @@ This error is returned when preflight validation detects:
 
 See [Chat Completions - Preflight Validation](endpoints/chat-completions.md#preflight-validation) for more details.
 
+## 429 Too Many Requests
+
+### Conversation Limit Exceeded
+
+```json
+{
+  "error": {
+    "message": "Conversation limit reached: this API accepts at most 5 user messages per request. Start a new conversation to continue.",
+    "type": "invalid_request_error",
+    "code": "conversation_limit_exceeded",
+    "limit": 5,
+    "count": 6
+  }
+}
+```
+
+Gamaliel is designed as a focused question-and-answer service, not a generalized chat agent. To maintain quality and safety, individual conversations are limited to **5 user messages**. When the `messages` array contains more than 5 messages with `"role": "user"`, the API returns this error.
+
+**What to do:** Start a new conversation. Each new request with a fresh `messages` array resets the count.
+
+See [Chat Completions – Conversation Limit](endpoints/chat-completions.md#conversation-limit) for more details.
+
 ## 500 Internal Server Error
 
 ```json

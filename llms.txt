@@ -83,6 +83,12 @@ print(response.choices[0].message.content)
 
 ## Important Limitations
 
+❌ **Conversations are limited to 5 user messages**
+- Gamaliel is a focused Q&A service, not a generalized chat agent
+- When `messages` contains more than 5 entries with `"role": "user"`, the API returns `429` with `code: "conversation_limit_exceeded"`
+- Start a new conversation (fresh `messages` array) to continue
+- Only `"role": "user"` messages count — `system` and `assistant` messages do not
+
 ❌ **Does NOT support `tools` or `function_calling` parameters**
 - Gamaliel handles all tool execution internally (biblical search, passage lookup, etc.)
 - You receive final answers with scripture citations already included
