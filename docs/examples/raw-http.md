@@ -14,7 +14,7 @@ response = requests.post(
         'Authorization': 'Bearer sk-...'  # Required
     },
     json={
-        'model': 'gpt-4o-mini',
+        'model': 'gpt-4.1-mini',
         'messages': [
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
         ],
@@ -40,7 +40,7 @@ const response = await fetch('https://api.gamaliel.ai/v1/chat/completions', {
     'Authorization': 'Bearer sk-...' // Required
   },
   body: JSON.stringify({
-    model: 'gpt-4o-mini',
+    model: 'gpt-4.1-mini',
     messages: [
       { role: 'user', content: 'What does the Bible say about forgiveness?' }
     ],
@@ -98,7 +98,7 @@ response = requests.post(
         'Authorization': 'Bearer sk-...'
     },
     json={
-        'model': 'gpt-4o-mini',
+        'model': 'gpt-4.1-mini',
         'messages': [
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
         ],
@@ -117,7 +117,25 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4o-mini",
+    "model": "gpt-4.1-mini",
+    "messages": [
+      {"role": "user", "content": "What does the Bible say about forgiveness?"}
+    ],
+    "theology": "default",
+    "profile": "universal_explorer"
+  }'
+```
+
+## Anthropic (Claude) BYOK (cURL)
+
+Use `Authorization: Bearer sk-ant-...` and `anthropic/<id>` in the JSON body (check **GET /v1/models** for ids; Haiku is not supported):
+
+```bash
+curl https://api.gamaliel.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer sk-ant-..." \
+  -d '{
+    "model": "anthropic/claude-sonnet-4-20250514",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -133,7 +151,7 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4o-mini",
+    "model": "gpt-4.1-mini",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

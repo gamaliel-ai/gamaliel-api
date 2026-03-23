@@ -1,5 +1,7 @@
 """
-Basic example: Non-streaming chat completion with Gamaliel API
+Basic example: Non-streaming chat completion with Gamaliel API (OpenAI BYOK).
+
+For Anthropic: use api_key="sk-ant-..." and model="anthropic/<id>" from GET /v1/models.
 """
 from openai import OpenAI
 
@@ -11,7 +13,7 @@ client = OpenAI(
 
 # Standard OpenAI call with Gamaliel-specific parameters
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

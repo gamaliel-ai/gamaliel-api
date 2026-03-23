@@ -7,16 +7,16 @@ layout: default
 
 ## Overview
 
-The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a **drop-in replacement** for OpenAI's chat completions API, with optional Gamaliel-specific parameters for biblical context and theological customization.
+The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a **drop-in replacement** for OpenAI's chat completions API (same request/response shape), with optional Gamaliel-specific parameters for biblical context and theological customization. **Chat completions use BYOK with either OpenAI or Anthropic (Claude)** — use the provider key that matches your `model`.
 
 > **🚀 Early Release - We Want Your Feedback!**  
 > The Gamaliel Public API is currently in early release. We're eager to hear from you about how we can improve the API, enhance the quality of completions, and expand customizability. Your feedback helps us build a better product. Please reach out with suggestions, issues, or feature requests!
 
 **Key Features:**
-- OpenAI-compatible request/response format
+- OpenAI-compatible request/response format (official OpenAI SDKs work with `base_url` set to Gamaliel)
+- **OpenAI and Anthropic BYOK** — OpenAI keys for GPT-4o+ / 4.1 / 5+ / o-series models; Anthropic keys for `anthropic/<id>` (Sonnet/Opus; Haiku not supported on this endpoint)
 - Streaming and non-streaming support
 - Stateless operation (no chat persistence)
-- BYOK (Bring Your Own Key) - you provide your own OpenAI API key
 - Same prompts, tools, and biblical intelligence as Gamaliel UI
 
 ## Base URL
@@ -49,7 +49,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -59,6 +59,8 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
+
+**Claude (Anthropic):** same pattern with `api_key="sk-ant-..."` and `model="anthropic/<id>"` from `GET /v1/models` (e.g. `anthropic/claude-sonnet-4-20250514`). See [Authentication](authentication.md) and [Chat Completions — models and providers](endpoints/chat-completions.md).
 
 ## Documentation
 
@@ -104,10 +106,10 @@ You can maintain your own conversation history by including previous messages in
 
 ## Security Considerations
 
-- OpenAI keys are never persisted, logged, or tracked
+- BYOK keys (OpenAI or Anthropic) are never persisted, logged, or tracked
 - System messages always include mandatory theological guardrails
 - User-provided system messages are appended but cannot override guardrails
-- No authentication required beyond BYOK (no Gamaliel API keys)
+- No Gamaliel-issued API key is required for chat — you use your provider key
 - Stateless operation prevents data leakage between requests
 
 ## Frequently Asked Questions
@@ -118,7 +120,10 @@ You can maintain your own conversation history by including previous messages in
 A: Familiarity and tool interchangeability. You can use existing OpenAI SDKs and tools with minimal changes. Just add Gamaliel-specific parameters for biblical context.
 
 **Q: Why is BYOK required?**  
-A: Simplifies integration, gives you control over costs, and ensures privacy. Future versions may support other providers (Anthropic, etc.).
+A: Simplifies integration, gives you control over costs, and ensures privacy. **OpenAI and Anthropic** are supported today; use **GET /v1/models** to see listed ids for your deployment.
+
+**Q: Can I use Claude / Anthropic?**  
+A: Yes. Send an Anthropic API key (`sk-ant-...`) and set `model` to `anthropic/<id>` (Sonnet or Opus class — Haiku is not supported on this endpoint). The OpenAI SDK works as the HTTP client — same `base_url`, different key and model.
 
 **Q: Can I use this as a drop-in replacement for OpenAI?**  
 A: Mostly yes, with one important limitation: Gamaliel does not support `tools` or `function_calling` parameters. For standard chat completions, you can use OpenAI format with optional Gamaliel parameters. If you don't provide Gamaliel-specific params, it works like OpenAI but with biblical guardrails. However, if you need custom tool execution or function calling, you'll need to use OpenAI's API directly. See [Limitations](endpoints/chat-completions.md#limitations) for details.

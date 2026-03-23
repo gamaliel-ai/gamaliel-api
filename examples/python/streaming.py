@@ -9,7 +9,7 @@ client = OpenAI(
 )
 
 stream = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

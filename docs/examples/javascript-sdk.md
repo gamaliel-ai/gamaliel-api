@@ -15,7 +15,7 @@ const openai = new OpenAI({
 
 // Standard OpenAI call with Gamaliel-specific parameters
 const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4.1-mini',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -44,7 +44,7 @@ const openai = new OpenAI({
 });
 
 const stream = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4.1-mini',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -73,7 +73,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4.1-mini',
   messages: [
     { role: 'system', content: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.' },
     { role: 'user', content: 'What does the Bible say about peer pressure?' }
@@ -97,7 +97,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4.1-mini',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -156,3 +156,27 @@ const response = await openai.chat.completions.create({
 ```
 
 **Note:** When using `defaultHeaders`, the headers apply to all requests from that client instance. For per-request header customization, use body parameters or create separate client instances.
+
+## Anthropic (Claude) BYOK
+
+Use an Anthropic API key and `model: 'anthropic/<id>'` (Sonnet/Opus from **GET /v1/models**; Haiku not supported).
+
+```typescript
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  apiKey: 'sk-ant-...',
+  baseURL: 'https://api.gamaliel.ai/v1'
+});
+
+const response = await openai.chat.completions.create({
+  model: 'anthropic/claude-sonnet-4-20250514',
+  messages: [
+    { role: 'user', content: 'What does the Bible say about forgiveness?' }
+  ],
+  theology: 'default',
+  profile: 'universal_explorer'
+} as any);
+
+console.log(response.choices[0].message.content);
+```

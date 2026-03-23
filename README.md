@@ -1,8 +1,8 @@
 # Gamaliel Public API
 
-**OpenAI-compatible Biblical Chat API**
+**OpenAI-compatible Biblical Chat API (OpenAI & Anthropic BYOK)**
 
-The Gamaliel Public API provides a biblical OpenAI-compatible API that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a drop-in replacement for OpenAI's chat completions API, with optional Gamaliel-specific parameters for biblical context and theological customization.
+The Gamaliel Public API provides a biblical OpenAI-compatible API that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API matches OpenAI's chat completions request/response shape, with optional Gamaliel-specific parameters for biblical context and theological customization. **Bring your own OpenAI or Anthropic key** — the key must match the model provider (`gpt-4.1-mini` / `openai/...` vs `anthropic/...`).
 
 ## Base URL
 
@@ -21,7 +21,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -40,10 +40,10 @@ print(response.choices[0].message.content)
 
 ## Key Features
 
-- ✅ OpenAI-compatible request/response format
+- ✅ OpenAI-compatible request/response format (use official OpenAI SDKs with Gamaliel `base_url`)
+- ✅ **OpenAI and Anthropic (Claude) BYOK**
 - ✅ Streaming and non-streaming support
 - ✅ Stateless operation (no chat persistence)
-- ✅ BYOK (Bring Your Own Key) - you provide your own OpenAI API key
 - ✅ Same prompts, tools, and biblical intelligence as Gamaliel UI
 
 ## Examples

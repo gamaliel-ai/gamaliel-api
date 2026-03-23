@@ -15,7 +15,7 @@ client = OpenAI(
 
 # Standard OpenAI call with Gamaliel-specific parameters
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -44,7 +44,7 @@ client = OpenAI(
 )
 
 stream = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -70,7 +70,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "Explain the meaning of these verses"}
     ],
@@ -95,7 +95,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": "You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon."},
         {"role": "user", "content": "What does the Bible say about peer pressure?"}
@@ -119,7 +119,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -129,4 +129,28 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 # Output: "The Bible teaches that forgiveness is central... In Matthew 6:14-15, Jesus says..."
 # (plain text references, no markdown links)
+```
+
+## Anthropic (Claude) BYOK
+
+Use an Anthropic API key (`sk-ant-...`) and `model="anthropic/<id>"`. **Haiku** models are not supported on this endpoint; use **Sonnet** or **Opus** ids from **GET /v1/models**.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-ant-...",
+    base_url="https://api.gamaliel.ai/v1"
+)
+
+response = client.chat.completions.create(
+    model="anthropic/claude-sonnet-4-20250514",
+    messages=[
+        {"role": "user", "content": "What does the Bible say about forgiveness?"}
+    ],
+    theology="default",
+    profile="universal_explorer"
+)
+
+print(response.choices[0].message.content)
 ```

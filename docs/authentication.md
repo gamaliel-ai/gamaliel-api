@@ -2,39 +2,60 @@
 
 ## BYOK (Bring Your Own Key) - Required
 
-The API uses a **Bring Your Own Key** (BYOK) model where you **must** provide your own OpenAI API key:
+The API uses a **Bring Your Own Key** (BYOK) model. You must provide **your own** LLM provider key in the `Authorization` header. Gamaliel supports:
 
-- **Header:** `Authorization: Bearer sk-...` (required, standard OpenAI format)
-- **No persistence:** We never store your OpenAI key - it's used per-request only
-- **No rate limiting:** OpenAI handles rate limiting for your own keys
-- **Privacy-friendly:** We never log or track which keys are used
+| Provider   | Key shape (examples)     | Use with `model` |
+|------------|----------------------------|------------------|
+| **OpenAI** | `sk-...`, `sk-proj-...`    | Plain id (e.g. `gpt-4.1-mini`) or `openai/<id>` |
+| **Anthropic** | `sk-ant-...`            | `anthropic/<id>` (Sonnet/Opus; Haiku not supported) |
+
+- **Header:** `Authorization: Bearer <your-key>` (required)
+- **No persistence:** Keys are not stored — used per request only
+- **Provider match:** The key family must match the model provider. For example, `anthropic/claude-sonnet-4-20250514` requires an Anthropic key; default OpenAI models require an OpenAI key
+- **No Gamaliel API key:** Integration is BYOK-only for chat completions
 
 ## Why BYOK?
 
-- **Client control:** You manage your own costs and rate limits via OpenAI
-- **Privacy-friendly:** We never store or track which keys are used
-- **Transparency:** You continue using OpenAI's own reporting, tracing, and usage tooling for full visibility
-- **Simpler integration and secure:** No need to manage or register for a separate Gamaliel API key; your OpenAI API key is never stored or persisted by us, ensuring your credentials remain private and secure.
-- **Future-proof:** Will support other compatible providers (Anthropic, etc.) in the future
+- **Client control:** You manage costs and rate limits with the provider
+- **Privacy-friendly:** We do not store or track which keys are used
+- **Transparency:** You use the provider’s own reporting and usage tooling
+- **Simple integration:** No separate Gamaliel API key for chat; use the same OpenAI SDK with `base_url` pointed at Gamaliel
 
 ## Usage
 
-Include your OpenAI API key in the `Authorization` header:
+### OpenAI key
 
 ```http
 Authorization: Bearer sk-...
 ```
 
-### Example with OpenAI SDK
+### Anthropic key
+
+```http
+Authorization: Bearer sk-ant-...
+```
+
+### Example with OpenAI SDK (OpenAI or Anthropic key)
+
+The official OpenAI Python/JavaScript clients work with Gamaliel’s base URL. Pass the API key for the provider that matches your `model`:
 
 ```python
 from openai import OpenAI
 
+# OpenAI-backed request
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (required)
+    api_key="sk-...",  # OpenAI API key
+    base_url="https://api.gamaliel.ai/v1"
+)
+
+# Anthropic-backed request (same client pattern, different key and model)
+client_claude = OpenAI(
+    api_key="sk-ant-...",  # Anthropic API key
     base_url="https://api.gamaliel.ai/v1"
 )
 ```
+
+Use **GET /v1/models** to see which model ids your deployment advertises for each provider.
 
 ### Example with Raw HTTP
 
@@ -44,7 +65,7 @@ import requests
 response = requests.post(
     'https://api.gamaliel.ai/v1/chat/completions',
     headers={
-        'Authorization': 'Bearer sk-...'  # Required
+        'Authorization': 'Bearer sk-ant-...'  # or OpenAI sk-...
     },
     json={...}
 )
@@ -52,4 +73,4 @@ response = requests.post(
 
 ## Error Responses
 
-If the API key is missing or invalid, you'll receive a `401 Unauthorized` error. See [Error Responses](errors.md) for details.
+Missing/invalid headers, wrong key shape, or **key provider does not match `model`** yield `401 Unauthorized` with an OpenAI-style error body. See [Error Responses](errors.md) for details.

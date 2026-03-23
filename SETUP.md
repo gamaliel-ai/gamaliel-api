@@ -6,7 +6,7 @@
 
 1. Go to https://github.com/organizations/gamaliel-ai/repositories/new
 2. Repository name: `gamaliel-api`
-3. Description: "Public API documentation for Gamaliel - OpenAI-compatible Biblical Chat API"
+3. Description: "Public API documentation for Gamaliel - OpenAI-compatible Biblical Chat API (OpenAI & Anthropic BYOK)"
 4. Visibility: **Public**
 5. **Do NOT** initialize with README, .gitignore, or license (we already have these)
 6. Click "Create repository"

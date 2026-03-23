@@ -4,7 +4,7 @@ The API uses standard HTTP status codes and OpenAI-compatible error formats.
 
 ## 401 Unauthorized
 
-### Missing OpenAI API Key
+### Missing or invalid Authorization header
 
 ```json
 {
@@ -16,12 +16,38 @@ The API uses standard HTTP status codes and OpenAI-compatible error formats.
 }
 ```
 
-### Invalid API Key Format
+### Invalid API key format
+
+Keys must start with `sk-` (covers OpenAI and Anthropic `sk-ant-...`).
 
 ```json
 {
   "error": {
-    "message": "Invalid API key format. OpenAI API keys must start with 'sk-'",
+    "message": "Invalid API key format. Key must start with 'sk-'",
+    "type": "invalid_request_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+### API key does not match model provider
+
+Using an **OpenAI** key with `model` `anthropic/...`, or an **Anthropic** key with a default/OpenAI model:
+
+```json
+{
+  "error": {
+    "message": "Model requires an Anthropic API key (sk-ant-...).",
+    "type": "invalid_request_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "message": "Model requires an OpenAI API key (not an Anthropic key).",
     "type": "invalid_request_error",
     "code": "invalid_api_key"
   }

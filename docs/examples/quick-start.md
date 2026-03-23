@@ -13,7 +13,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -35,7 +35,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',
+  model: 'gpt-4.1-mini',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -53,13 +53,37 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4o-mini",
+    "model": "gpt-4.1-mini",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
     "theology": "default",
     "profile": "universal_explorer"
   }'
+```
+
+## Anthropic (Claude) BYOK
+
+Use your **Anthropic** API key and an `anthropic/<id>` model (ids from **GET /v1/models**; example below uses a common Sonnet id):
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-ant-...",
+    base_url="https://api.gamaliel.ai/v1"
+)
+
+response = client.chat.completions.create(
+    model="anthropic/claude-sonnet-4-20250514",
+    messages=[
+        {"role": "user", "content": "What does the Bible say about forgiveness?"}
+    ],
+    theology="default",
+    profile="universal_explorer"
+)
+
+print(response.choices[0].message.content)
 ```
 
 ## Next Steps

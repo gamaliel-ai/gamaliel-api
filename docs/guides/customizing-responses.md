@@ -51,7 +51,7 @@ The API service validates all system messages to ensure they comply with theolog
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are a friendly Discord bot for the youth group at Grace Community Church. 
 You're speaking to high school students (ages 14-18) who are active in the church youth group.
@@ -100,7 +100,7 @@ You're speaking to high school students (ages 14-18) who are active in the churc
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are a biblical counselor providing guidance through a Christian counseling app. 
 You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life challenges.
@@ -153,7 +153,7 @@ You're speaking to adults (ages 25-65) who are seeking biblical wisdom for life 
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are speaking to a young person (ages 16-25) who is atheist or skeptical about the Bible and Christianity. 
 They may have genuine questions but are not familiar with religious language or concepts.
@@ -197,7 +197,7 @@ They may have genuine questions but are not familiar with religious language or 
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """**OUTPUT FORMATTING - STRICT RULES:**
 - Do NOT quote Scripture passages verbatim
@@ -235,7 +235,7 @@ response = client.chat.completions.create(
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are speaking to someone with theological training - seminary students, pastors, or theologians. 
 They are familiar with biblical concepts, theological terminology, and church history.
@@ -277,7 +277,7 @@ They are familiar with biblical concepts, theological terminology, and church hi
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are speaking to children (ages 6-12) through a children's Bible app.
 
@@ -321,7 +321,7 @@ response = client.chat.completions.create(
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-4.1-mini",
     messages=[
         {"role": "system", "content": """You are speaking to a new believer who recently became a Christian. 
 They are excited but may feel overwhelmed by all there is to learn.

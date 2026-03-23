@@ -49,8 +49,8 @@ Open WebUI is a popular open-source chat interface that can be used to manually 
 
 7. **Configure Your API Key:**
    - Go to **Settings** (user menu in top right)
-   - Add your OpenAI API key
-   - Select a model from the dropdown (e.g., `gpt-4o-mini`)
+   - Add your **OpenAI** API key for OpenAI models, or your **Anthropic** key (`sk-ant-...`) if your client lists `anthropic/...` models from Gamaliel
+   - Select a model from the dropdown (e.g., `gpt-4.1-mini` or `anthropic/claude-sonnet-4-20250514` when exposed by **GET /v1/models**)
 
 8. **Test:**
    - Start a new chat
@@ -76,6 +76,7 @@ docker-compose down -v
 
 ## Notes
 
-- Open WebUI uses Direct Connections mode, so each user provides their own OpenAI API key
+- Open WebUI uses Direct Connections mode, so each user provides their own provider API key (OpenAI and/or Anthropic, matching the model)
 - The API Base URL should be `https://api.gamaliel.ai/v1` (production) or `http://host.docker.internal:8000/v1` (local development)
+- Gamaliel’s model list comes from **GET /v1/models**; OpenAI and Anthropic rows depend on server configuration (`OPENAI_API_KEY` / `ANTHROPIC_API_KEY`)
 - Models are automatically fetched from `/v1/models` endpoint

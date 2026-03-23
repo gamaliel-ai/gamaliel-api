@@ -16,10 +16,10 @@ layout: default
 ```http
 POST https://api.gamaliel.ai/v1/chat/completions
 Content-Type: application/json
-Authorization: Bearer sk-... (required)
+Authorization: Bearer sk-... or sk-ant-... (required — must match model provider)
 
 {
-  "model": "gpt-4o-mini",  // Optional, defaults to gpt-4o-mini
+  "model": "gpt-4.1-mini",  // Optional, defaults to gpt-4.1-mini
   "messages": [
     {
       "role": "system",
@@ -54,7 +54,7 @@ When `stream: false` or omitted:
   "id": "chatcmpl-abc123",
   "object": "chat.completion",
   "created": 1234567890,
-  "model": "gpt-4o-mini",
+  "model": "gpt-4.1-mini",
   "choices": [
     {
       "index": 0,
@@ -78,13 +78,13 @@ When `stream: false` or omitted:
 When `stream: true`, uses OpenAI-compatible Server-Sent Events format:
 
 ```
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4o-mini","choices":[{"index":0,"delta":{"content":"The"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":"The"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4o-mini","choices":[{"index":0,"delta":{"content":" Bible"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":" Bible"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4o-mini","choices":[{"index":0,"delta":{"content":" teaches"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":" teaches"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4o-mini","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
 
 data: [DONE]
 ```
@@ -93,11 +93,17 @@ data: [DONE]
 
 ### Standard OpenAI Parameters
 
-- `model` (string, optional): Model name. Defaults to `gpt-4o-mini`
+- `model` (string, optional): Model name. Defaults to `gpt-4.1-mini`
 - `messages` (array, required): Array of message objects with `role` and `content`
   - `role`: `"user"`, `"assistant"`, or `"system"` (multiple system messages are concatenated with `\n\n`)
   - `content`: Message content string
 - `stream` (boolean, optional): Whether to stream responses. Defaults to `false`
+
+### Models and providers (OpenAI & Anthropic BYOK)
+
+- **OpenAI:** Omit prefix or use `openai/<id>`. Default when `model` is omitted is **`gpt-4.1-mini`**. Supported families include **GPT-4o, GPT-4.1, GPT-5+, o1/o3/o4** (not GPT-3.5 or legacy GPT-4 such as `gpt-4-0613`). Use **GET /v1/models** for ids returned from your deployment’s OpenAI catalog (`OPENAI_API_KEY` on the server).
+- **Anthropic:** Use `anthropic/<id>` with an **Anthropic API key** (`sk-ant-...`). **Sonnet and Opus** only — **Haiku is rejected** on this endpoint. Ids appear on **GET /v1/models** when `ANTHROPIC_API_KEY` is configured.
+- **Key must match provider:** An OpenAI key with `anthropic/...`, or an Anthropic key with a default/OpenAI model, returns **`401`** with an OpenAI-style error body (see [Error responses – API key does not match model provider](../errors.md#api-key-does-not-match-model-provider)).
 
 ### Gamaliel-Specific Optional Parameters
 
@@ -140,7 +146,7 @@ from openai import RateLimitError
 
 try:
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4.1-mini",
         messages=conversation_history,
     )
 except RateLimitError as e:
@@ -148,7 +154,7 @@ except RateLimitError as e:
         # Start a new conversation
         conversation_history = []
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[{"role": "user", "content": latest_question}],
         )
 ```
@@ -436,10 +442,11 @@ If a `system` role message is provided in the `messages` array, its content is a
 
 ## Using Official OpenAI SDKs
 
-The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API. You can use the official OpenAI SDKs (Python, JavaScript, etc.) with minimal changes - just set the `base_url` and include Gamaliel-specific parameters.
+The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API shape. You can use the official OpenAI SDKs (Python, JavaScript, etc.) with minimal changes: set `base_url` to Gamaliel, pass the correct **BYOK key** (OpenAI or Anthropic) for your chosen `model`, and include Gamaliel-specific parameters as needed.
 
 **Key Points:**
-- All standard OpenAI parameters work exactly as expected
+- All standard OpenAI parameters work as expected for request/response shape
+- **Anthropic:** use `model: "anthropic/<id>"` and `api_key` / `apiKey` set to `sk-ant-...`
 - Gamaliel-specific parameters (`theology`, `book_id`, etc.) are passed through automatically
 - The SDK serializes all parameters to JSON, including custom ones
 - TypeScript may show warnings for unknown fields (see TypeScript section in [JavaScript SDK Examples](../examples/javascript-sdk.md#typescript-type-safety))
