@@ -121,20 +121,20 @@ data: [DONE]
 
 ### Conversation Limit
 
-**Each conversation is limited to 5 user messages.**
+**Each conversation is limited to 20 user messages.**
 
-Gamaliel is designed as a focused biblical question-and-answer service, not a generalized chat agent. Longer conversations introduce safety risks and degrade answer quality, so individual conversations are capped at 5 user messages (messages with `"role": "user"` in the `messages` array).
+Gamaliel is designed as a focused biblical question-and-answer service, not a generalized chat agent. Longer conversations introduce safety risks and degrade answer quality, so individual conversations are capped at 20 user messages (messages with `"role": "user"` in the `messages` array).
 
 When the limit is exceeded, the API returns `429 Too Many Requests`:
 
 ```json
 {
   "error": {
-    "message": "Conversation limit reached: this API accepts at most 5 user messages per request. Start a new conversation to continue.",
+    "message": "Conversation limit reached: this API accepts at most 20 user messages per request. Start a new conversation to continue.",
     "type": "invalid_request_error",
     "code": "conversation_limit_exceeded",
-    "limit": 5,
-    "count": 6
+    "limit": 20,
+    "count": 21
   }
 }
 ```

@@ -106,16 +106,16 @@ See [Chat Completions - Preflight Validation](endpoints/chat-completions.md#pref
 ```json
 {
   "error": {
-    "message": "Conversation limit reached: this API accepts at most 5 user messages per request. Start a new conversation to continue.",
+    "message": "Conversation limit reached: this API accepts at most 20 user messages per request. Start a new conversation to continue.",
     "type": "invalid_request_error",
     "code": "conversation_limit_exceeded",
-    "limit": 5,
-    "count": 6
+    "limit": 20,
+    "count": 21
   }
 }
 ```
 
-Gamaliel is designed as a focused question-and-answer service, not a generalized chat agent. To maintain quality and safety, individual conversations are limited to **5 user messages**. When the `messages` array contains more than 5 messages with `"role": "user"`, the API returns this error.
+Gamaliel is designed as a focused question-and-answer service, not a generalized chat agent. To maintain quality and safety, individual conversations are limited to **20 user messages**. When the `messages` array contains more than 20 messages with `"role": "user"`, the API returns this error.
 
 **What to do:** Start a new conversation. Each new request with a fresh `messages` array resets the count.
 
