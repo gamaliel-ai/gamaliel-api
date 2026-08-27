@@ -14,7 +14,7 @@ response = requests.post(
         'Authorization': 'Bearer sk-...'  # BYOK; omit for hosted (3/min/IP)
     },
     json={
-        'model': 'gpt-4.1-mini',
+        'model': 'gpt-5.6-luna',
         'messages': [
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
         ],
@@ -37,10 +37,10 @@ const response = await fetch('https://api.gamaliel.ai/v1/chat/completions', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer sk-...' // Required
+    'Authorization': 'Bearer sk-...' // Optional BYOK; omit for hosted (3/min/IP)
   },
   body: JSON.stringify({
-    model: 'gpt-4.1-mini',
+    model: 'gpt-5.6-luna',
     messages: [
       { role: 'user', content: 'What does the Bible say about forgiveness?' }
     ],
@@ -98,7 +98,7 @@ response = requests.post(
         'Authorization': 'Bearer sk-...'
     },
     json={
-        'model': 'gpt-4.1-mini',
+        'model': 'gpt-5.6-luna',
         'messages': [
             {'role': 'user', 'content': 'What does the Bible say about forgiveness?'}
         ],
@@ -117,7 +117,7 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4.1-mini",
+    "model": "gpt-5.6-luna",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -151,7 +151,7 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4.1-mini",
+    "model": "gpt-5.6-luna",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

@@ -103,7 +103,7 @@ When `Authorization` is omitted, Gamaliel provides the API key and caps **3 requ
 }
 ```
 
-We may tighten this limit or disable hosted access if we detect abuse. Use BYOK for applications that need stable throughput.
+We may tighten this limit or disable hosted access if we detect abuse. BYOK is optional; use it when you need stable throughput above the hosted cap.
 
 ### Conversation Limit Exceeded
 

@@ -50,7 +50,7 @@ Open WebUI is a popular open-source chat interface that can be used to manually 
 7. **Configure Your API Key:**
    - Go to **Settings** (user menu in top right)
    - Add your **OpenAI** API key for OpenAI models, or your **Anthropic** key (`sk-ant-...`) if your client lists `anthropic/...` models from Gamaliel
-   - Select a model from the dropdown (e.g., `gpt-4.1-mini` or `anthropic/claude-sonnet-4-20250514` when exposed by **GET /v1/models**)
+   - Select a model from the dropdown (e.g., `gpt-5.6-luna` or `anthropic/claude-sonnet-4-20250514` when exposed by **GET /v1/models**)
 
 8. **Test:**
    - Start a new chat

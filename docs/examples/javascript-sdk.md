@@ -9,13 +9,13 @@ import OpenAI from 'openai';
 
 // Initialize client with Gamaliel base URL
 const openai = new OpenAI({
-  apiKey: 'sk-...',  // Your OpenAI API key (required)
+  apiKey: 'sk-...',  // Optional BYOK OpenAI key
   baseURL: 'https://api.gamaliel.ai/v1'
 });
 
 // Standard OpenAI call with Gamaliel-specific parameters
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -44,7 +44,7 @@ const openai = new OpenAI({
 });
 
 const stream = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -73,7 +73,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'system', content: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.' },
     { role: 'user', content: 'What does the Bible say about peer pressure?' }
@@ -97,7 +97,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],

@@ -1,13 +1,13 @@
 # Gamaliel Public API
 
-OpenAI-compatible Biblical Chat API — drop-in replacement for OpenAI’s chat completions shape, with biblical intelligence. **BYOK supports OpenAI and Anthropic (Claude).**
+OpenAI-compatible Biblical Chat API — drop-in replacement for OpenAI’s chat completions shape, with biblical intelligence. **BYOK is optional** (OpenAI and Anthropic). Default model is **gpt-5.6-luna**.
 
 ## Base URL
 https://api.gamaliel.ai/v1
 
 ## Authentication
 
-**BYOK (applications):** send your OpenAI or Anthropic key. No IP rate limit. Key must match the model provider.
+**BYOK (optional):** send your OpenAI or Anthropic key. No IP rate limit. Key must match the model provider.
 
 - **OpenAI:** `Authorization: Bearer sk-...` or `sk-proj-...`
 - **Anthropic:** `Authorization: Bearer sk-ant-...`
@@ -22,8 +22,8 @@ POST /v1/chat/completions
 ## Key Parameters
 
 ### Standard OpenAI Parameters
-- `model` (string, optional): Defaults to **gpt-4.1-mini** when omitted (OpenAI path — same as Gamaliel’s normal tier).
-  - **OpenAI:** pass a plain id (e.g. `gpt-4.1-mini`, `gpt-4o-mini`) or `openai/<id>`. Supported families: **GPT-4o, GPT-4.1, GPT-5+, o1/o3/o4** — not GPT-3.5 or legacy GPT-4 (e.g. `gpt-4-0613`).
+- `model` (string, optional): Defaults to **gpt-5.6-luna** when omitted (OpenAI path — same as Gamaliel’s normal tier).
+  - **OpenAI:** pass a plain id (e.g. `gpt-5.6-luna`, `gpt-4o-mini`) or `openai/<id>`. Supported families: **GPT-4o, GPT-4.1, GPT-5+, o1/o3/o4** — not GPT-3.5 or legacy GPT-4 (e.g. `gpt-4-0613`).
   - **Anthropic:** pass `anthropic/<id>` with your Anthropic key. **Sonnet and Opus** only — **Haiku is not supported** on this endpoint.
   - Use **GET /v1/models** for ids your deployment lists (OpenAI rows from the server’s `OPENAI_API_KEY`, Anthropic rows from `ANTHROPIC_API_KEY`; each side may be empty if that key is unset or listing fails).
 - `messages` (array, required): Array of message objects with `role` and `content`
@@ -73,12 +73,12 @@ POST /v1/scripture/search
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key
+    api_key="sk-...",  # Optional BYOK OpenAI key
     base_url="https://api.gamaliel.ai/v1"
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

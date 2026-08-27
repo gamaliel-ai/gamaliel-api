@@ -19,7 +19,7 @@ Content-Type: application/json
 Authorization: Bearer sk-... or sk-ant-... (optional — omit to use hosted key, 3/min/IP)
 
 {
-  "model": "gpt-4.1-mini",  // Optional, defaults to gpt-4.1-mini
+  "model": "gpt-5.6-luna",  // Optional, defaults to gpt-5.6-luna
   "messages": [
     {
       "role": "system",
@@ -54,7 +54,7 @@ When `stream: false` or omitted:
   "id": "chatcmpl-abc123",
   "object": "chat.completion",
   "created": 1234567890,
-  "model": "gpt-4.1-mini",
+  "model": "gpt-5.6-luna",
   "choices": [
     {
       "index": 0,
@@ -78,13 +78,13 @@ When `stream: false` or omitted:
 When `stream: true`, uses OpenAI-compatible Server-Sent Events format:
 
 ```
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":"The"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-5.6-luna","choices":[{"index":0,"delta":{"content":"The"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":" Bible"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-5.6-luna","choices":[{"index":0,"delta":{"content":" Bible"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{"content":" teaches"},"finish_reason":null}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-5.6-luna","choices":[{"index":0,"delta":{"content":" teaches"},"finish_reason":null}]}
 
-data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-4.1-mini","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+data: {"id":"chatcmpl-abc123","object":"chat.completion.chunk","created":1234567890,"model":"gpt-5.6-luna","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
 
 data: [DONE]
 ```
@@ -93,7 +93,7 @@ data: [DONE]
 
 ### Standard OpenAI Parameters
 
-- `model` (string, optional): Model name. Defaults to `gpt-4.1-mini`
+- `model` (string, optional): Model name. Defaults to `gpt-5.6-luna`
 - `messages` (array, required): Array of message objects with `role` and `content`
   - `role`: `"user"`, `"assistant"`, or `"system"` (multiple system messages are concatenated with `\n\n`)
   - `content`: Message content string
@@ -101,7 +101,7 @@ data: [DONE]
 
 ### Models and providers (OpenAI & Anthropic BYOK)
 
-- **OpenAI:** Omit prefix or use `openai/<id>`. Default when `model` is omitted is **`gpt-4.1-mini`**. Supported families include **GPT-4o, GPT-4.1, GPT-5+, o1/o3/o4** (not GPT-3.5 or legacy GPT-4 such as `gpt-4-0613`). Use **GET /v1/models** for ids returned from your deployment’s OpenAI catalog (`OPENAI_API_KEY` on the server).
+- **OpenAI:** Omit prefix or use `openai/<id>`. Default when `model` is omitted is **`gpt-5.6-luna`**. Supported families include **GPT-4o, GPT-4.1, GPT-5+, o1/o3/o4** (not GPT-3.5 or legacy GPT-4 such as `gpt-4-0613`). Use **GET /v1/models** for ids returned from your deployment’s OpenAI catalog (`OPENAI_API_KEY` on the server).
 - **Anthropic:** Use `anthropic/<id>` with an **Anthropic API key** (`sk-ant-...`). **Sonnet and Opus** only — **Haiku is rejected** on this endpoint. Ids appear on **GET /v1/models** when `ANTHROPIC_API_KEY` is configured.
 - **Key must match provider:** An OpenAI key with `anthropic/...`, or an Anthropic key with a default/OpenAI model, returns **`401`** with an OpenAI-style error body (see [Error responses – API key does not match model provider](../errors.md#api-key-does-not-match-model-provider)).
 
@@ -146,7 +146,7 @@ from openai import RateLimitError
 
 try:
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="gpt-5.6-luna",
         messages=conversation_history,
     )
 except RateLimitError as e:
@@ -154,7 +154,7 @@ except RateLimitError as e:
         # Start a new conversation
         conversation_history = []
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="gpt-5.6-luna",
             messages=[{"role": "user", "content": latest_question}],
         )
 ```
@@ -442,7 +442,7 @@ If a `system` role message is provided in the `messages` array, its content is a
 
 ## Using Official OpenAI SDKs
 
-The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API shape. You can use the official OpenAI SDKs (Python, JavaScript, etc.) with minimal changes: set `base_url` to Gamaliel, pass the correct **BYOK key** (OpenAI or Anthropic) for your chosen `model`, and include Gamaliel-specific parameters as needed.
+The Gamaliel API is designed as a **drop-in replacement** for OpenAI's API shape. You can use the official OpenAI SDKs (Python, JavaScript, etc.) with minimal changes: set `base_url` to Gamaliel, optionally pass a **BYOK key** (OpenAI or Anthropic) that matches your `model`, and include Gamaliel-specific parameters as needed. Omit the key to use the hosted OpenAI key (3/min/IP).
 
 **Key Points:**
 - All standard OpenAI parameters work as expected for request/response shape
@@ -457,7 +457,7 @@ Most SDKs (including OpenAI's official SDKs) support custom parameters via extra
 
 ## Related Documentation
 
-- [Authentication](../authentication.md) - BYOK (Bring Your Own Key) authentication
+- [Authentication](../authentication.md) - Optional BYOK, or hosted key (3/min/IP)
 - [Error Responses](../errors.md) - API error codes and responses
 - [List Theologies](theologies.md) - Get available theology options
 - [List Profiles](profiles.md) - Get available profile options

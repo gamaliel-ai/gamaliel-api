@@ -12,7 +12,7 @@ const openai = new OpenAI({
 
 // Standard OpenAI call with Gamaliel-specific parameters
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],

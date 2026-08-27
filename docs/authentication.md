@@ -1,20 +1,20 @@
 # Authentication
 
-Chat completions support two modes on the same endpoint (`POST /v1/chat/completions`).
+Chat completions support two modes on the same endpoint (`POST /v1/chat/completions`). **A caller API key is optional.**
 
-## BYOK (Bring Your Own Key) — for applications
+## BYOK (Bring Your Own Key) — optional, recommended for applications
 
 Send **your own** LLM provider key. You pay the provider; Gamaliel does **not** apply an IP rate limit on this path.
 
 | Provider   | Key shape (examples)     | Use with `model` |
 |------------|----------------------------|------------------|
-| **OpenAI** | `sk-...`, `sk-proj-...`    | Plain id (e.g. `gpt-4.1-mini`) or `openai/<id>` |
+| **OpenAI** | `sk-...`, `sk-proj-...`    | Plain id (e.g. `gpt-5.6-luna`) or `openai/<id>` |
 | **Anthropic** | `sk-ant-...`            | `anthropic/<id>` (Sonnet/Opus; Haiku not supported) |
 
 - **Header:** `Authorization: Bearer <your-key>`
 - **No persistence:** Keys are not stored — used per request only
 - **Provider match:** The key family must match the model provider
-- **Recommended** for production apps, evals, and anything that needs stable throughput
+- **Recommended** for production apps, evals, and anything that needs stable throughput (optional — hosted mode works without a key)
 
 ## Hosted key — no caller key
 

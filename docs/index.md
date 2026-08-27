@@ -7,14 +7,16 @@ layout: default
 
 ## Overview
 
-The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a **drop-in replacement** for OpenAI's chat completions API (same request/response shape), with optional Gamaliel-specific parameters for biblical context and theological customization. **Applications should BYOK** (OpenAI or Anthropic, matching `model`). Clients that omit a key get a **hosted** OpenAI key with **3 requests/minute/IP and no availability guarantees**.
+The Gamaliel Public API provides a **biblical OpenAI-compatible API** that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API serves as a **drop-in replacement** for OpenAI's chat completions API (same request/response shape), with optional Gamaliel-specific parameters for biblical context and theological customization.
+
+**BYOK is optional.** Send an OpenAI or Anthropic key (matching `model`) for uncapped caller-paid usage, or omit `Authorization` to use a **hosted** OpenAI key (**3 requests/minute/IP**, **no availability guarantees**). Default `model` is **gpt-5.6-luna**.
 
 > **🚀 Early Release - We Want Your Feedback!**  
 > The Gamaliel Public API is currently in early release. We're eager to hear from you about how we can improve the API, enhance the quality of completions, and expand customizability. Your feedback helps us build a better product. Please reach out with suggestions, issues, or feature requests!
 
 **Key Features:**
 - OpenAI-compatible request/response format (official OpenAI SDKs work with `base_url` set to Gamaliel)
-- **OpenAI and Anthropic BYOK** — OpenAI keys for GPT-4o+ / 4.1 / 5+ / o-series models; Anthropic keys for `anthropic/<id>` (Sonnet/Opus; Haiku not supported on this endpoint). Omit `Authorization` to use a hosted OpenAI key (rate-limited; no guarantees).
+- **Optional BYOK** — OpenAI keys for GPT-4o+ / 4.1 / 5+ / o-series models; Anthropic keys for `anthropic/<id>` (Sonnet/Opus; Haiku not supported on this endpoint). Omit `Authorization` to use a hosted OpenAI key (**3 requests/minute/IP**; no guarantees).
 - Streaming and non-streaming support
 - Stateless operation (no chat persistence)
 - Same prompts, tools, and biblical intelligence as Gamaliel UI
@@ -44,12 +46,12 @@ The only difference is the API interface - under the hood, it's the same proven 
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (BYOK); omit / use a dummy for hosted mode
+    api_key="sk-...",  # Optional BYOK; omit Authorization (or use a dummy SDK key) for hosted mode
     base_url="https://api.gamaliel.ai/v1"
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -67,7 +69,7 @@ print(response.choices[0].message.content)
 ### Getting Started
 
 - [Overview](index.md) - Full API overview
-- [Authentication](authentication.md) - BYOK or hosted key (rate-limited, no guarantees)
+- [Authentication](authentication.md) - Optional BYOK, or hosted key (3/min/IP, no guarantees)
 - [Quick Start Examples](examples/quick-start.md) - Get started in minutes
 
 ### API Endpoints
@@ -109,7 +111,7 @@ You can maintain your own conversation history by including previous messages in
 - BYOK keys (OpenAI or Anthropic) are never persisted, logged, or tracked
 - System messages always include mandatory theological guardrails
 - User-provided system messages are appended but cannot override guardrails
-- No Gamaliel-issued API key is required for chat — BYOK for apps, or omit Authorization for hosted (limited) access
+- No Gamaliel-issued API key is required — BYOK is optional; omit Authorization for hosted (rate-limited) access
 - Stateless operation prevents data leakage between requests
 
 ## Frequently Asked Questions
@@ -119,8 +121,8 @@ You can maintain your own conversation history by including previous messages in
 **Q: Why OpenAI-compatible format?**  
 A: Familiarity and tool interchangeability. You can use existing OpenAI SDKs and tools with minimal changes. Just add Gamaliel-specific parameters for biblical context.
 
-**Q: Why is BYOK recommended for applications?**  
-A: You control cost and get no IP cap. Hosted (no key) is 3 requests/minute/IP with **no guarantees** — we may rate-limit or shut it off if we detect abuse. **OpenAI and Anthropic** BYOK are supported; use **GET /v1/models** for listed ids.
+**Q: Is BYOK required?**  
+A: No. Chat completions work without a caller key. Hosted (no key) is **3 requests/minute/IP** with **no guarantees** — we may tighten or shut it off if we detect abuse. BYOK is recommended for production apps: you control cost and there is no Gamaliel IP cap. **OpenAI and Anthropic** keys are supported; use **GET /v1/models** for listed ids.
 
 **Q: Can I use Claude / Anthropic?**  
 A: Yes. Send an Anthropic API key (`sk-ant-...`) and set `model` to `anthropic/<id>` (Sonnet or Opus class — Haiku is not supported on this endpoint). The OpenAI SDK works as the HTTP client — same `base_url`, different key and model.

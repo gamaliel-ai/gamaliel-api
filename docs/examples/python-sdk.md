@@ -9,13 +9,13 @@ from openai import OpenAI
 
 # Initialize client with Gamaliel base URL
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (required)
+    api_key="sk-...",  # Optional BYOK OpenAI key
     base_url="https://api.gamaliel.ai/v1"
 )
 
 # Standard OpenAI call with Gamaliel-specific parameters
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -44,7 +44,7 @@ client = OpenAI(
 )
 
 stream = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -70,7 +70,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "Explain the meaning of these verses"}
     ],
@@ -95,7 +95,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "system", "content": "You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon."},
         {"role": "user", "content": "What does the Bible say about peer pressure?"}
@@ -119,7 +119,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

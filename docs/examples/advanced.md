@@ -17,7 +17,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "Explain the meaning of these verses"}
     ],
@@ -42,7 +42,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'Explain the meaning of these verses' }
   ],
@@ -71,7 +71,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "system", "content": "You are speaking to high school students (ages 14-18) in a Christian youth group. They are familiar with basic Bible stories but may struggle with applying biblical principles to their daily lives. Use relatable examples, avoid theological jargon, and focus on practical application."},
         {"role": "user", "content": "What does the Bible say about peer pressure?"}
@@ -93,7 +93,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'system', content: 'You are speaking to high school students in a youth group. Keep responses concise (under 200 words), use relatable examples, and avoid theological jargon.' },
     { role: 'user', content: 'What does the Bible say about peer pressure?' }
@@ -119,7 +119,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "Hello"}
     ],
@@ -140,7 +140,7 @@ const openai = new OpenAI({
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'Hello' }
   ],
@@ -166,7 +166,7 @@ client = OpenAI(
 
 # First message
 response1 = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ]
@@ -177,7 +177,7 @@ print(f"Assistant: {assistant_message}")
 
 # Follow-up message with history
 response2 = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"},
         {"role": "assistant", "content": assistant_message},
@@ -200,7 +200,7 @@ const openai = new OpenAI({
 
 // First message
 const response1 = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ]
@@ -211,7 +211,7 @@ console.log(`Assistant: ${assistantMessage}`);
 
 // Follow-up message with history
 const response2 = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' },
     { role: 'assistant', content: assistantMessage },

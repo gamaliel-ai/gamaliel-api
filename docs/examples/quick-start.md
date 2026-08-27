@@ -8,12 +8,12 @@ Get started with the Gamaliel API in minutes.
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (BYOK)
+    api_key="sk-...",  # Optional BYOK OpenAI key
     base_url="https://api.gamaliel.ai/v1"
 )
 
 response = client.chat.completions.create(
-    model="gpt-4.1-mini",
+    model="gpt-5.6-luna",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
@@ -30,12 +30,12 @@ print(response.choices[0].message.content)
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-  apiKey: 'sk-...',  // Your OpenAI API key (required)
+  apiKey: 'sk-...',  // Optional BYOK OpenAI key; omit Authorization for hosted (3/min/IP)
   baseURL: 'https://api.gamaliel.ai/v1'
 });
 
 const response = await openai.chat.completions.create({
-  model: 'gpt-4.1-mini',
+  model: 'gpt-5.6-luna',
   messages: [
     { role: 'user', content: 'What does the Bible say about forgiveness?' }
   ],
@@ -53,12 +53,27 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-..." \
   -d '{
-    "model": "gpt-4.1-mini",
+    "model": "gpt-5.6-luna",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
     "theology": "default",
     "profile": "universal_explorer"
+  }'
+```
+
+## Hosted key (no BYOK)
+
+Omit `Authorization`. Gamaliel uses a hosted OpenAI key, capped at **3 requests per minute per IP**, with **no availability guarantees**.
+
+```bash
+curl https://api.gamaliel.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-5.6-luna",
+    "messages": [
+      {"role": "user", "content": "What does the Bible say about forgiveness?"}
+    ]
   }'
 ```
 
