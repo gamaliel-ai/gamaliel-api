@@ -6,12 +6,15 @@ OpenAI-compatible Biblical Chat API — drop-in replacement for OpenAI’s chat 
 https://api.gamaliel.ai/v1
 
 ## Authentication
-BYOK (Bring Your Own Key). Send **either** an OpenAI or an Anthropic API key (must match the model provider you request):
 
-- **OpenAI:** `Authorization: Bearer sk-...` or `sk-proj-...` (normal OpenAI key shapes)
+**BYOK (applications):** send your OpenAI or Anthropic key. No IP rate limit. Key must match the model provider.
+
+- **OpenAI:** `Authorization: Bearer sk-...` or `sk-proj-...`
 - **Anthropic:** `Authorization: Bearer sk-ant-...`
 
-The key is used per request only — not stored. Use an **OpenAI** key with plain model ids (default provider) or `openai/<id>`. Use an **Anthropic** key with `anthropic/<model_id>` (e.g. `anthropic/claude-sonnet-4-20250514`). Mismatched key and model return `401` with an OpenAI-style error body.
+**Hosted key:** omit `Authorization`. Gamaliel provides an OpenAI key. **3 requests/minute/IP. No guarantees** — we may rate-limit further or shut off hosted access if we detect abuse. Anthropic models still need a caller `sk-ant-...` key.
+
+The caller key (when sent) is used per request only — not stored. Mismatched key and model return `401` with an OpenAI-style error body. Hosted cap returns `429` with `code: rate_limit_exceeded`.
 
 ## Main Endpoint
 POST /v1/chat/completions
@@ -137,7 +140,7 @@ Standard OpenAI chat completion format:
 
 ## Key Features
 - OpenAI-compatible request/response format (works with official OpenAI client libraries)
-- **OpenAI and Anthropic BYOK** with provider/key validation
+- **OpenAI and Anthropic BYOK** with provider/key validation, or **hosted key** when Authorization is omitted (3/min/IP, no guarantees)
 - Streaming and non-streaming support
 - Stateless (no chat persistence - manage history client-side)
 - Same biblical intelligence as Gamaliel UI (same prompts, tools, guardrails)

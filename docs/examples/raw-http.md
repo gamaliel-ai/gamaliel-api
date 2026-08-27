@@ -11,7 +11,7 @@ response = requests.post(
     'https://api.gamaliel.ai/v1/chat/completions',
     headers={
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk-...'  # Required
+        'Authorization': 'Bearer sk-...'  # BYOK; omit for hosted (3/min/IP)
     },
     json={
         'model': 'gpt-4.1-mini',

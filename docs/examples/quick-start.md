@@ -8,7 +8,7 @@ Get started with the Gamaliel API in minutes.
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (required)
+    api_key="sk-...",  # Your OpenAI API key (BYOK)
     base_url="https://api.gamaliel.ai/v1"
 )
 

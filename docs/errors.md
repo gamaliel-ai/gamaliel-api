@@ -4,21 +4,9 @@ The API uses standard HTTP status codes and OpenAI-compatible error formats.
 
 ## 401 Unauthorized
 
-### Missing or invalid Authorization header
-
-```json
-{
-  "error": {
-    "message": "Missing or invalid Authorization header. Expected format: Authorization: Bearer <key>",
-    "type": "invalid_request_error",
-    "code": "missing_api_key"
-  }
-}
-```
-
 ### Invalid API key format
 
-Keys must start with `sk-` (covers OpenAI and Anthropic `sk-ant-...`).
+Omitting `Authorization` uses the hosted key (not a 401). A present Bearer token must start with `sk-` (covers OpenAI and Anthropic `sk-ant-...`).
 
 ```json
 {
@@ -100,6 +88,22 @@ This error is returned when preflight validation detects:
 See [Chat Completions - Preflight Validation](endpoints/chat-completions.md#preflight-validation) for more details.
 
 ## 429 Too Many Requests
+
+### Hosted key IP rate limit
+
+When `Authorization` is omitted, Gamaliel provides the API key and caps **3 requests per minute per IP**. BYOK (caller provides `sk-…`) is not subject to this cap.
+
+```json
+{
+  "error": {
+    "message": "Rate limit exceeded. Requests without an API key are limited to 3 per minute per IP. ...",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+
+We may tighten this limit or disable hosted access if we detect abuse. Use BYOK for applications that need stable throughput.
 
 ### Conversation Limit Exceeded
 

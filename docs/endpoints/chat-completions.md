@@ -16,7 +16,7 @@ layout: default
 ```http
 POST https://api.gamaliel.ai/v1/chat/completions
 Content-Type: application/json
-Authorization: Bearer sk-... or sk-ant-... (required — must match model provider)
+Authorization: Bearer sk-... or sk-ant-... (optional — omit to use hosted key, 3/min/IP)
 
 {
   "model": "gpt-4.1-mini",  // Optional, defaults to gpt-4.1-mini

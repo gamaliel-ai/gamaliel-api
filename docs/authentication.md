@@ -1,39 +1,51 @@
 # Authentication
 
-## BYOK (Bring Your Own Key) - Required
+Chat completions support two modes on the same endpoint (`POST /v1/chat/completions`).
 
-The API uses a **Bring Your Own Key** (BYOK) model. You must provide **your own** LLM provider key in the `Authorization` header. Gamaliel supports:
+## BYOK (Bring Your Own Key) — for applications
+
+Send **your own** LLM provider key. You pay the provider; Gamaliel does **not** apply an IP rate limit on this path.
 
 | Provider   | Key shape (examples)     | Use with `model` |
 |------------|----------------------------|------------------|
 | **OpenAI** | `sk-...`, `sk-proj-...`    | Plain id (e.g. `gpt-4.1-mini`) or `openai/<id>` |
 | **Anthropic** | `sk-ant-...`            | `anthropic/<id>` (Sonnet/Opus; Haiku not supported) |
 
-- **Header:** `Authorization: Bearer <your-key>` (required)
+- **Header:** `Authorization: Bearer <your-key>`
 - **No persistence:** Keys are not stored — used per request only
-- **Provider match:** The key family must match the model provider. For example, `anthropic/claude-sonnet-4-20250514` requires an Anthropic key; default OpenAI models require an OpenAI key
-- **No Gamaliel API key:** Integration is BYOK-only for chat completions
+- **Provider match:** The key family must match the model provider
+- **Recommended** for production apps, evals, and anything that needs stable throughput
 
-## Why BYOK?
+## Hosted key — no caller key
 
-- **Client control:** You manage costs and rate limits with the provider
-- **Privacy-friendly:** We do not store or track which keys are used
-- **Transparency:** You use the provider’s own reporting and usage tooling
-- **Simple integration:** No separate Gamaliel API key for chat; use the same OpenAI SDK with `base_url` pointed at Gamaliel
+If you omit `Authorization` (or send an empty Bearer), Gamaliel **provides** the server OpenAI key.
+
+- **Limits:** **3 requests per minute per IP**
+- **No guarantees:** we may tighten rate limits or **shut off** hosted access at any time if we detect abuse (eval-suite bursts, scraping, open proxies, etc.)
+- **OpenAI models only** for this path. Anthropic (`anthropic/<id>`) still requires a caller `sk-ant-...` key
+- Suitable for first-party clients (e.g. a Chrome extension) that cannot ship a provider key
+
+A product token in a client bundle is not used and is not required.
+
+Optional `X-Gamaliel-Client` (e.g. `chrome-extension`) is for **metrics only**, not authentication.
 
 ## Usage
 
-### OpenAI key
+### OpenAI key (BYOK)
 
 ```http
 Authorization: Bearer sk-...
 ```
 
-### Anthropic key
+### Anthropic key (BYOK)
 
 ```http
 Authorization: Bearer sk-ant-...
 ```
+
+### Hosted (no key)
+
+Omit the `Authorization` header. Subject to the hosted IP cap above.
 
 ### Example with OpenAI SDK (OpenAI or Anthropic key)
 
@@ -65,7 +77,7 @@ import requests
 response = requests.post(
     'https://api.gamaliel.ai/v1/chat/completions',
     headers={
-        'Authorization': 'Bearer sk-ant-...'  # or OpenAI sk-...
+        'Authorization': 'Bearer sk-ant-...'  # or OpenAI sk-...; omit for hosted
     },
     json={...}
 )
@@ -73,4 +85,4 @@ response = requests.post(
 
 ## Error Responses
 
-Missing/invalid headers, wrong key shape, or **key provider does not match `model`** yield `401 Unauthorized` with an OpenAI-style error body. See [Error Responses](errors.md) for details.
+Present but invalid headers, wrong key shape, or **key provider does not match `model`** yield `401 Unauthorized` with an OpenAI-style error body. Hosted IP caps yield `429` with `code: rate_limit_exceeded`. See [Error Responses](errors.md) for details.

@@ -1,8 +1,8 @@
 # Gamaliel Public API
 
-**OpenAI-compatible Biblical Chat API (OpenAI & Anthropic BYOK)**
+**OpenAI-compatible Biblical Chat API (OpenAI & Anthropic BYOK, or hosted key)**
 
-The Gamaliel Public API provides a biblical OpenAI-compatible API that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API matches OpenAI's chat completions request/response shape, with optional Gamaliel-specific parameters for biblical context and theological customization. **Bring your own OpenAI or Anthropic key** — the key must match the model provider (`gpt-4.1-mini` / `openai/...` vs `anthropic/...`).
+The Gamaliel Public API provides a biblical OpenAI-compatible API that allows third-parties to integrate Gamaliel's biblical chat functionality into their own applications. The API matches OpenAI's chat completions request/response shape, with optional Gamaliel-specific parameters for biblical context and theological customization. **Applications should bring your own OpenAI or Anthropic key** (must match the model provider). Omit `Authorization` to use a hosted OpenAI key (3 requests/minute/IP, no guarantees).
 
 ## Base URL
 
@@ -16,7 +16,7 @@ https://api.gamaliel.ai
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-...",  # Your OpenAI API key (required)
+    api_key="sk-...",  # Your OpenAI API key (BYOK)
     base_url="https://api.gamaliel.ai/v1"
 )
 
