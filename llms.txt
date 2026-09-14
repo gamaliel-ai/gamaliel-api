@@ -35,7 +35,7 @@ POST /v1/chat/completions
 - `book_id` (string, optional): Scripture context - book ID (e.g., "MAT", "GEN", "1CO")
 - `chapter` (integer, optional): Scripture context - chapter number
 - `verses` (array of integers, optional): Scripture context - specific verse numbers
-- `bible_id` (string, optional): Bible translation ID. Defaults to "eng-web"
+- `bible_id` (string, optional): Bible translation ID. Defaults to "eng-web". Use GET /v1/translations for options.
 - `max_words` (integer, optional): Maximum response length in words. Defaults to 300
 - `messages` array supports `system` role: Custom tone/format/audience instructions via standard system messages (appended to mandatory guardrails). Multiple system messages are concatenated. Examples: Discord bot for youth group, Christian counseling app, atheist/skeptical audience, children, new believers, minimal citations, academic context. See docs/guides/customizing-responses.md for detailed use case examples.
 - `disable_scripture_links` (boolean, optional): Disable scripture link conversion. Defaults to false. When false (default), references are converted to markdown links pointing to Gamaliel reader. When true, references remain as plain text without links.
@@ -48,7 +48,7 @@ Semantic search for Bible chapters by meaning. No authentication required.
 
 ### Parameters
 - `q` / `query` (string, required): Search query. Use `q` for GET, `query` in POST body.
-- `bible_id` (string, optional): Bible translation for returned text. Defaults to "eng-web"
+- `bible_id` (string, optional): Bible translation for returned text. Defaults to "eng-web". Use GET /v1/translations for options.
 - `limit` (integer, optional): Number of results, 1–20. Defaults to 5
 - `testament` (string, optional): Filter by testament — "Old Testament" or "New Testament"
 - `book` (string, optional): Filter to a specific book by name or ID (e.g. "John", "GEN", "Psalms")
@@ -65,6 +65,7 @@ POST /v1/scripture/search
 ## Other Endpoints
 - GET /v1/theologies - List available theology slugs for use in `theology` param
 - GET /v1/profiles - List available profile slugs for use in `profile` param
+- GET /v1/translations - List available Bible translations for use in `bible_id` param
 - GET /v1/models - List supported chat models (OpenAI and `anthropic/...` rows when keys are configured)
 
 ## Quick Example (OpenAI key)

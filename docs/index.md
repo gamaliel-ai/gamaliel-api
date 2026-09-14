@@ -78,6 +78,7 @@ print(response.choices[0].message.content)
 - [Scripture Search](endpoints/scripture-search.md) - Semantic Bible search (`GET /v1/scripture/search`, `POST /v1/scripture/search`)
 - [List Theologies](endpoints/theologies.md) - Get available theology options (`GET /v1/theologies`)
 - [List Profiles](endpoints/profiles.md) - Get available profile options (`GET /v1/profiles`)
+- [List Translations](endpoints/translations.md) - Get available Bible translations (`GET /v1/translations`)
 
 ### Examples
 
@@ -147,8 +148,8 @@ A: Yes! Most SDKs (including OpenAI's official SDKs) support custom parameters. 
 **Q: Will TypeScript show errors for Gamaliel-specific parameters?**  
 A: TypeScript may show warnings for unknown parameters. You can suppress them with `as any`, use `@ts-ignore`, or extend the OpenAI types. See [TypeScript Type Safety](examples/javascript-sdk.md#typescript-type-safety) for options.
 
-**Q: What happens if I provide an invalid `theology` or `profile`?**  
-A: The API returns a 400 error with available options. Use `GET /v1/theologies` and `GET /v1/profiles` to see valid slugs.
+**Q: What happens if I provide an invalid `theology`, `profile`, or `bible_id`?**  
+A: The API returns a 400 error with available options. Use `GET /v1/theologies`, `GET /v1/profiles`, and `GET /v1/translations` to see valid values.
 
 **Q: Can I maintain conversation history?**  
 A: Yes, include previous messages in the `messages` array (standard OpenAI pattern). The API is stateless, so you manage history client-side. See [Conversation History](examples/advanced.md#conversation-history) for examples.

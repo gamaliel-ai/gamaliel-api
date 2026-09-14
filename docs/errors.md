@@ -68,6 +68,8 @@ Using an **OpenAI** key with `model` `anthropic/...`, or an **Anthropic** key wi
 }
 ```
 
+The same shape is used for invalid `profile` (`GET /v1/profiles`) and invalid `bible_id` (`GET /v1/translations`).
+
 ### Invalid or Inappropriate Input (Preflight Rejection)
 
 ```json

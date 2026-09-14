@@ -110,7 +110,7 @@ data: [DONE]
 - `book_id` (string): Scripture context - book ID (e.g., `"MAT"`, `"GEN"`, `"1CO"`)
 - `chapter` (integer): Scripture context - chapter number
 - `verses` (array of integers): Scripture context - specific verse numbers (e.g., `[1, 2, 3]`)
-- `bible_id` (string): Bible translation ID (e.g., `"eng-web"`, `"spa-niv-2022"`). Defaults to `"eng-web"`
+- `bible_id` (string): Bible translation ID (e.g., `"eng-web"`, `"spa-niv-2022"`). Defaults to `"eng-web"`. Use `GET /v1/translations` to see available options.
 - `profile` (string): Pre-defined profile slug (e.g., `"universal_explorer"`, `"mature_believer"`). Defaults to `"universal_explorer"`. Use `GET /v1/profiles` to see available options.
 - `theology` (string): Theological perspective (e.g., `"default"`, `"reformed"`, `"catholic"`). Defaults to `"default"`. Use `GET /v1/theologies` to see available options.
 - `max_words` (integer): Maximum response length in words. Defaults to 300

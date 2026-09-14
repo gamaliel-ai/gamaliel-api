@@ -30,7 +30,7 @@ Content-Type: application/json
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `query` / `q` | string | **yes** | — | Search query. Use `query` in POST body, `q` in GET params. |
-| `bible_id` | string | no | `"eng-web"` | Bible translation for returned text (e.g. `"eng-web"`, `"eng-us-niv"`). Note: embeddings are always `eng-web`; only the fetched text changes. |
+| `bible_id` | string | no | `"eng-web"` | Bible translation for returned text (e.g. `"eng-web"`, `"eng-us-niv"`). Use `GET /v1/translations` for options. Note: embeddings are always `eng-web`; only the fetched text changes. |
 | `limit` | integer | no | `5` | Number of results (1–20). |
 | `testament` | string | no | — | Filter by testament: `"Old Testament"` or `"New Testament"`. |
 | `book` | string | no | — | Filter to a specific book by name or ID (e.g. `"Genesis"`, `"GEN"`, `"Psalms"`). |

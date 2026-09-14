@@ -28,6 +28,8 @@ navigation:
         url: /docs/endpoints/theologies/
       - title: List Profiles
         url: /docs/endpoints/profiles/
+      - title: List Translations
+        url: /docs/endpoints/translations/
   - title: Examples
     children:
       - title: Python SDK
