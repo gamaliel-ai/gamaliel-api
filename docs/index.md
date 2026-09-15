@@ -62,7 +62,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-**Claude (Anthropic):** same pattern with `api_key="sk-ant-..."` and `model="anthropic/<id>"` from `GET /v1/models` (e.g. `anthropic/claude-sonnet-4-20250514`). See [Authentication](authentication.md) and [Chat Completions — models and providers](endpoints/chat-completions.md).
+**Claude (Anthropic):** same pattern with `api_key="sk-ant-..."` and `model="anthropic/<id>"` from `GET /v1/models` (e.g. `anthropic/claude-sonnet-4-6`). See [Authentication](authentication.md) and [Chat Completions — models and providers](endpoints/chat-completions.md).
 
 ## Documentation
 

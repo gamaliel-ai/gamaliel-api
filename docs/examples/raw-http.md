@@ -135,7 +135,7 @@ curl https://api.gamaliel.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-ant-..." \
   -d '{
-    "model": "anthropic/claude-sonnet-4-20250514",
+    "model": "anthropic/claude-sonnet-4-6",
     "messages": [
       {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],

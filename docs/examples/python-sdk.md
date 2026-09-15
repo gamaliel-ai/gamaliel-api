@@ -144,7 +144,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="anthropic/claude-sonnet-4-20250514",
+    model="anthropic/claude-sonnet-4-6",
     messages=[
         {"role": "user", "content": "What does the Bible say about forgiveness?"}
     ],
